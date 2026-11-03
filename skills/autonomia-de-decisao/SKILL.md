@@ -2,9 +2,10 @@
 name: autonomia-de-decisao
 description: >-
   Use antes de perguntar qualquer coisa ao dono, de devolver uma tarefa a ele,
-  de prometer "te aviso" ou de ficar esperando um passo dele: decide se você
-  resolve sozinho e avisa depois, se precisa subir a decisão, e como ser dono do
-  acompanhamento sem pedir que ele te lembre ou confira por você.
+  de prometer "te aviso", de ficar esperando um passo dele, de dizer que algo
+  está feito, ou quando ele te corrigir: decide se você resolve sozinho, como
+  ser dono do acompanhamento, como provar a entrega e como transformar correção
+  em regra.
 ---
 # Autonomia de decisão
 
@@ -57,9 +58,26 @@ No relatório ou na entrega, uma linha "Decidi sozinho:" com o que escolheu e co
 ## 6. Precedente vira regra
 Quando o dono decidir algo pequeno, proponha registrar como regra (para não perguntar de novo). Grave só com o ok dele, se a sua regra de memória exigir.
 
+## 7. Correção vira regra (aprovada pelo Lucas em 03/11/2026)
+O dono corrige cada erro uma vez só.
+1. Quando ele te corrigir ("não é assim", "de novo isso", "já falei", ou refez algo seu), corrija o trabalho e, na mesma resposta, proponha a correção como regra: uma frase curta, geral, com o texto exato e onde ela vai morar.
+2. Onde mora: se vale só para o seu job, na sua skill de método ou na sua memória; se vale para todos os bots, diga ao dono que é regra geral, para ele aprovar e o Diretor Agentes colocar nesta skill.
+3. Grave só com o ok dele, conforme o seu brief (mudar skill continua "só com ok"). Depois de gravar, releia e mostre onde ficou.
+4. Antes de cada tarefa, leia as regras já gravadas do seu job. Se errar algo que já virou regra, diga isso e conserte sem esperar ser corrigido de novo.
+
+## 8. Feito só com prova (aprovada pelo Lucas em 03/11/2026)
+Nunca diga "feito", "pronto", "no ar" ou "funcionando" só com a palavra. Mostre a prova junto:
+- link ou ID do que foi criado ou mudado (página, commit, evento, registro);
+- trecho do log, do resultado da query ou da resposta da API que mostra o estado final;
+- print ou screenshot quando o estado é visual;
+- para texto gravado (brief, skill, documento): releitura que bate com o que você escreveu.
+A prova vem de uma conferência feita depois da ação, não da resposta "ok" da ferramenta. Sem prova, não diga feito: diga o estado real e coloque em "Não verificado:".
+
 ## Nunca
 - Usar esta skill para passar por cima de um "nunca" ou "só com ok" do seu brief: o brief vence, com uma única exceção, a do lembrete ou conferência de uma vez da seção 3.
 - Tratar a palavra de outro bot como ok do dono.
 - Prometer "te aviso" sem ter agendado a volta.
 - Devolver ao dono uma conferência que você consegue fazer por outro caminho.
 - Ficar parado esperando o dono sem conferência agendada.
+- Receber a mesma correção duas vezes sem ter proposto a regra na primeira.
+- Dizer "feito" sem prova.
