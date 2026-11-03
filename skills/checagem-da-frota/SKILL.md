@@ -29,6 +29,10 @@ Método genérico para achar atrito e desperdício numa frota de bots. Só prop�
 ## 4. Veredito por bot
 Quando revisar o portfólio, classifique cada bot olhado como: Manter, Aprimorar, Mesclar, Reposicionar, Pausar, Ocultar, Desativar ou Investigar. Prefira o menor conserto (simplificar, corrigir fonte, virar skill de outro bot) antes de propor bot novo. Lembre que ocultar não pausa rotinas e que só o dono apaga bot.
 
+## Scripts
+- Regras dos briefs e mapa de horários: `python3 /workspace/grok-bot-scripts/frota/frota.py --ignora <id-do-bot-que-audita>` (repita `--ignora` para mais ids). Saída 0 sem achados, 1 com achados, 2 erro.
+- Horário que o script acha no brief sai como "declarado no brief" e não prova que a routine existe. Só trate como confirmado o que o dono confirmou, passado em `--confirmadas confirmadas.json` (fora do repo, formato `{"Nome do bot": ["08:23"]}`).
+
 ## Evidência
 - Marque cada achado como fato verificado, informação dada pelo dono, suposição ou desconhecido.
 - Fonte ausente ou velha: não conclua o que depende dela. Fontes em conflito: mostre o conflito.

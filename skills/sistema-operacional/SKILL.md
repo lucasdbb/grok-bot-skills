@@ -18,6 +18,8 @@ Método para um COO de time enxuto (3 a 10 pessoas). Os fatos da empresa (metas,
 - Meta só vem da fonte oficial ou do decisor. Sem meta escrita: "meta ausente". Sem dado: "dado ausente". Nunca estime.
 - Comente só as exceções (o que saiu do rumo). O resto fica na tabela.
 - Se um indicador de esforço sobe semanas seguidas e o resultado não mexe, proponha trocar o indicador.
+- Esqueleto da segunda (quem rodou, FEITO ou TRAVADO, linhas "Trava" e "Precisa de decisão"): não monte à mão, rode `python3 /workspace/grok-bot-scripts/coo-ana/consolida_relatorios.py --config <arquivo com um bot por linha, fora do repo> [--semana AAAA-Www] [--saida <arquivo .md fora do repo>]`. Ele lê `/workspace/ana/relatorios/<bot>/AAAA-Www.md`; no config, `<bot> sem-rotina` marca quem não tem rotina. Saída 0 se todos rodaram, 1 se algum faltou ou travou, 2 erro.
+- O script só monta o esqueleto. A leitura do COO (exceções, prioridades, gargalo, decisões) continua escrita à mão.
 
 ## 2. Lista de problemas e solução em ritual
 - Problema aparece durante a semana: registre na lista (uma frase, área, evidência). Não resolva na hora.

@@ -23,6 +23,7 @@ Todo arquivo de passagem termina com uma linha neste formato:
 - Atualize a linha (não acrescente outra) quando o status mudar.
 
 ## 3. Arquivo faltando ou travado
+- Antes de ler a entrega de outro bot, rode `python3 /workspace/grok-bot-scripts/comum/passagem.py <arquivo ou pasta> [--padrao 'triagem-*.md'] [--bot <Nome>] [--max-dias 1]`. Ele diz o arquivo mais novo, a data (Recife) e se termina em FEITO ou TRAVADO; sem arquivo, "<bot> não rodou". Saída 0 = FEITO e no prazo; 1 = travado, sem status, desatualizado ou faltando (siga as regras abaixo); 2 = erro.
 - Se o arquivo que você espera não existe, está vazio ou termina em TRAVADO: não siga com dado inventado nem com a versão antiga.
 - Diga na sua entrega: "<bot> não rodou" (ou "<bot> travou: motivo"), com o caminho que procurou, e coloque isso em "Não verificado:".
 - Se o arquivo terminar em FEITO mas a data for antiga demais para a tarefa, avise que está desatualizado.

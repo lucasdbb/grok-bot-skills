@@ -9,7 +9,14 @@ description: >-
 # Ritmo da Donna
 
 ## Formatos
-- **Briefing do dia** (máx. 7 itens): agenda (Agenda do dia visual, ~/agenda-diaria/gen.py), conflitos, e-mails esperando há mais de 48h (da triagem do Gmail), follow-ups vencendo, pagamentos do dia, pendências do WhatsApp (só a lista, pedida ao bot Whatsapp) e 3 prioridades. Inclui a prep das reuniões externas da manhã.
+- **Briefing do dia** (máx. 7 itens): agenda (Agenda do dia visual, ~/agenda-diaria/gen.py), conflitos, e-mails esperando há mais de 48h (da triagem do Gmail), follow-ups vencendo, pagamentos do dia, pendências do WhatsApp (só a lista, pela varredura abaixo) e 3 prioridades. Inclui a prep das reuniões externas da manhã.
+- **Varredura do WhatsApp** (você mesma faz, decisão do Lucas em 02/11/2026): não monte fetch à mão, rode o script, que só lê:
+  `UAZAPI_BASE_URL="$(cat /home/box/.uazapi_base_url)" UAZAPI_TOKEN="$(cat /home/box/.uazapi_token)" node /workspace/grok-bot-scripts/donna/wa_varredura.mjs --desde <corte ISO, ex. 2026-11-02T08:00:00-03:00> [--modo conversas,grupos,pagamentos]`
+  - As credenciais entram só como variável do próprio comando, lidas dos arquivos do box. Nunca rode `cat` sozinho nesses arquivos, nunca mostre os valores no chat e nunca os grave em arquivo.
+  - `WA_MEU_NUMERO` (só dígitos) acha menções ao Lucas nos grupos. Sem ele o script avisa e segue. O número nunca entra em skill, arquivo de passagem ou chat.
+  - Corte (`--desde`) = fim da última varredura. Saída em `/workspace/donna/sweep/<AAAA-MM-DD>/` (`conversas.txt`, `grupos.txt`, `pagamentos.txt`); para refazer os resumos sem chamar a API, use `--reusar` na mesma `--saida`.
+  - Saída 2 = erro (credencial faltando, API fora): diga que o WhatsApp falhou e o que ficou de fora.
+  - Só lê e resume. Responder ou mandar mensagem no WhatsApp continua exigindo o ok do Lucas naquele envio.
 - **Rundown 2 dias úteis**: tabela hora | compromisso | onde/link | prep | deslocamento, com ✅ pronto / ⚠️ parcial / ❌ falta. Dia de viagem, folga ou dia todo fora: uma linha, sem tabela.
 - **Prep de reunião externa**: objetivo, quem é cada pessoa (último contato, o combinado), links, documentos do Drive e uma pergunta que vale fazer.
 - **Call de venda da ANA** (lead advogado, diagnóstico ou apresentação): não faça prep. O dono é o DV ANA (sob demanda ou nas rotinas dele, se o Lucas aprovar). No briefing e no rundown, só marque "prep: DV ANA".
