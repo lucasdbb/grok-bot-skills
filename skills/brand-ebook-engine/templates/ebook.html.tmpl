@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — {{BRAND_NAME}}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* {{INLINE: brand-tokens.css (skills/brand-deck-engine/assets/) — mesma fonte de verdade dos decks}} */
+/* {{INLINE: brand-deck-visuals.css (skills/brand-deck-engine/assets/) — mesma camada neural dos decks}} */
+/* {{INLINE: brand-ebook-engine.css (skills/brand-ebook-engine/assets/)}} */
+</style>
+</head>
+<body>
+
+<div class="ebook" id="ebook" data-reading-minutes="{{READING_MINUTES}}">
+
+  <div class="ebook-progress"><span class="ebook-progress-fill"></span></div>
+
+  <button class="ebook-toc-toggle" aria-label="Abrir sumário" aria-expanded="false">☰</button>
+
+  <nav class="ebook-toc" id="ebook-toc" aria-label="Sumário">
+    <div class="ebook-toc-head">
+      {{INLINE: logos-brand.b64.txt (versão pequena, referenciada UMA VEZ e reaproveitada)}}
+      <span class="brand-wordmark">{{BRAND_NAME}}</span>
+    </div>
+
+    <!-- {{TOC_ITEMS}} -->
+    <!--
+      Formato "aula-unica": lista simples de capítulos.
+      Formato "curso": agrupar com <p class="toc-kicker">Parte N — Nome do módulo</p> antes dos capítulos daquela parte.
+
+      <a class="toc-item" href="#cap-1" data-chapter="cap-1">
+        <span class="toc-num">01</span>
+        <span>Título do capítulo</span>
+      </a>
+    -->
+  </nav>
+
+  <main class="ebook-content">
+
+    <section class="ebook-page cover" id="capa">
+      <div class="bg-orb primary" style="top:-10vh;right:-14vw"></div>
+      <div class="bg-orb secondary sm" style="bottom:-8vh;left:-10vw"></div>
+      {{INLINE: logos-brand.b64.txt (versão grande)}}
+      <span class="eyebrow">{{FORMATO_LABEL}}</span>
+      <h1 class="brand-text-grad">{{TITLE}}</h1>
+      <p class="cover-subtitle">{{SUBTITLE}}</p>
+      <div class="cover-meta">
+        <span>{{AUTOR}}</span>
+        <span>{{DATA}}</span>
+        <span>{{TEMPO_LEITURA}} de leitura</span>
+      </div>
+    </section>
+
+    <section class="ebook-page sumario" id="sumario">
+      <span class="eyebrow">Sumário</span>
+      <h2>O que você vai encontrar</h2>
+      <ul class="sumario-list">
+        <!-- {{SUMARIO_ITEMS}} -->
+        <!-- <li><a href="#cap-1"><span class="sumario-num">01</span>Título do capítulo</a></li> -->
+      </ul>
+    </section>
+
+    <!-- {{CHAPTERS}} -->
+    <!--
+      Ver contrato de capítulo completo em skills/brand-ebook-engine/SKILL.md.
+      Para o formato "curso", inserir antes de cada módulo:
+      <section class="part-divider" id="parte-1">
+        <span class="eyebrow">Parte 01</span>
+        <h2>Nome do módulo</h2>
+      </section>
+
+      <article class="chapter" id="cap-1" data-chapter-title="...">
+        <header class="chapter-head">
+          <span class="chapter-num">Capítulo 01</span>
+          <h2>Título do capítulo</h2>
+          <p class="chapter-intro">...</p>
+        </header>
+        <div class="chapter-body">...</div>
+        <footer class="chapter-summary brand-card-neural">
+          <span class="eyebrow">Em resumo</span>
+          <ul>...</ul>
+        </footer>
+      </article>
+    -->
+
+    <section class="ebook-page closing" id="encerramento">
+      <div class="bg-orb secondary" style="top:-14vh;left:-12vw"></div>
+      {{INLINE: logos-brand.b64.txt (versão grande)}}
+      <span class="eyebrow">Encerramento</span>
+      <h2 class="brand-text-grad">{{CLOSING_HEADLINE}}</h2>
+      <p class="cover-subtitle">{{CLOSING_CTA}}</p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* {{INLINE: brand-ebook-engine.js}} */
+</script>
+
+</body>
+</html>

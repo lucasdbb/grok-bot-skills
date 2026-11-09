@@ -1,0 +1,432 @@
+/*
+  brand-ebook-livro.css — diagramação de PDF "modo livro" dos ebooks da marca.
+  Usada SOMENTE no pipeline de exportação (scripts/ebook-to-pdf-livro.js), nunca
+  no HTML entregue ao leitor: o paginador (brand-ebook-paginator.js) reconstrói o
+  documento em divs .pdf-page de exatamente uma folha A4 cada, e este arquivo
+  cuida da tipografia e da mancha gráfica dessas páginas.
+
+  Por que não usar o @media print da engine de leitura: a impressão nativa do
+  navegador não pinta o fundo na área de margem da @page (moldura branca em
+  ebook dark-first), não permite rodapé com número de página no Chrome (sem
+  suporte a margin boxes) e deixa cards órfãos em páginas quase vazias. Aqui
+  cada página é um elemento real, então fundo, rodapé e quebras são exatos.
+
+  Consome apenas variáveis de brand-tokens.css (mesma fonte de verdade dos
+  decks) e reaproveita os cards de brand-deck-visuals.css.
+*/
+
+@page { size: A4; margin: 0; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg) !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ─── Folha ─── */
+.pdf-page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: var(--deck-font-body);
+  color: var(--ink-soft);
+  page-break-after: always;
+  break-after: page;
+}
+.pdf-page:last-child { page-break-after: auto; break-after: auto; }
+
+/* O título gradiente (.brand-text-grad) não sobrevive ao rasterizador de PDF do
+   Chrome: o drop-shadow vira uma faixa leitosa e o background-clip:text vaza o
+   fundo do elemento como riscas horizontais atrás do texto. Em PDF o título de
+   destaque usa a cor primária sólida (acento da marca), sem gradiente nem glow. */
+.pdf-page .brand-text-grad {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--primary);
+  filter: none;
+  text-shadow: none;
+}
+
+/* Mancha gráfica (área de conteúdo) */
+.pdf-content {
+  position: absolute;
+  top: 20mm;
+  left: 24mm;
+  right: 24mm;
+  bottom: 24mm;
+  font-family: var(--deck-font-body);
+  font-size: 10.5pt;
+  line-height: 1.68;
+  /* Texto de leitura corrida em var(--ink) cheio (espelha brand-ebook-engine.css),
+     não var(--ink-soft) — legibilidade do corpo do capítulo no PDF. */
+  color: var(--ink);
+}
+
+/* Rodapé de página (não aparece em capa/encerramento) */
+.pdf-footer {
+  position: absolute;
+  left: 24mm;
+  right: 24mm;
+  bottom: 9mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 2.4mm;
+  border-top: 1px solid rgba(51, 65, 85, 0.55);
+  font-family: var(--deck-font-body);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pdf-footer .pdf-page-num {
+  font-family: var(--deck-font-mono);
+  font-size: 8pt;
+  letter-spacing: 0.06em;
+  color: var(--primary-dim);
+}
+
+/* ─── Tipografia de corpo ─── */
+.pdf-content p { margin: 0 0 4.2mm; }
+.pdf-content strong { color: var(--ink); font-weight: 600; }
+.pdf-content a { color: var(--primary); text-decoration: none; }
+.pdf-content h3 {
+  font-family: var(--deck-font-head);
+  font-size: 12.5pt;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 7mm 0 3mm;
+}
+.pdf-content ul, .pdf-content ol { margin: 0 0 4.2mm; padding-left: 5.5mm; }
+.pdf-content li { margin-bottom: 1.8mm; }
+.pdf-content code {
+  font-family: var(--deck-font-mono);
+  font-size: 0.9em;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 0 1mm;
+}
+
+/* ─── Abertura de capítulo ─── */
+.pdf-chap-head { margin: 0 0 8mm; }
+.pdf-chap-head .chapter-num {
+  display: block;
+  font-family: var(--deck-font-mono);
+  font-size: 9pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 4mm;
+}
+.pdf-chap-head h2 {
+  font-family: var(--deck-font-head);
+  font-size: 21pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0 0 3.5mm;
+}
+.pdf-chap-head .chapter-intro {
+  font-size: 12pt;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+.pdf-chap-rule {
+  height: 2px;
+  width: 34mm;
+  background: var(--gradient-brand-90);
+  border-radius: 1px;
+  margin-top: 5mm;
+}
+
+/* ─── Cards (sobre a base de brand-deck-visuals.css) ─── */
+/* No PDF os cards usam borda sólida (o mask-composite da borda-gradiente não é
+   confiável no rasterizador do Chrome — ver docs/EXPORTACAO-PDF.md). */
+.pdf-content .brand-card-neural {
+  background: var(--bg-soft);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid var(--primary-dim);
+  border-radius: 3mm;
+  overflow: hidden;
+}
+.pdf-content .brand-card-neural::before { display: none !important; }
+
+.pdf-content .pull-quote {
+  margin: 5.5mm 0;
+  padding: 6mm 8mm;
+  font-family: var(--deck-font-head);
+  font-size: 12pt;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.pdf-content .pull-quote cite {
+  display: block;
+  margin-top: 3mm;
+  font-family: var(--deck-font-body);
+  font-style: normal;
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.pdf-content .chapter-summary {
+  margin: 6mm 0 0;
+  padding: 5.5mm 7mm;
+}
+.pdf-content .chapter-summary .eyebrow {
+  display: block;
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 2.5mm;
+}
+.pdf-content .chapter-summary ul { margin: 0; padding-left: 5mm; }
+.pdf-content .chapter-summary li { margin-bottom: 1.6mm; font-size: 10pt; }
+
+.pdf-content .brand-termwin { margin: 5mm 0; font-size: 9pt; }
+
+.pdf-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+  margin: 0 0 4.5mm;
+}
+.pdf-content th, .pdf-content td {
+  text-align: left;
+  vertical-align: top;
+  padding: 2.2mm 3mm;
+  border-bottom: 0.3mm solid var(--rule);
+}
+.pdf-content th {
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+  border-bottom: 0.4mm solid var(--primary-dim);
+}
+.pdf-content td:first-child { color: var(--ink); font-weight: 600; }
+
+.pdf-content .checklist { list-style: none; margin: 0 0 4.2mm; padding: 0; }
+.pdf-content .checklist li { position: relative; padding-left: 6mm; margin-bottom: 1.8mm; }
+.pdf-content .checklist li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.6mm;
+  width: 3.2mm; height: 3.2mm;
+  border: 0.4mm solid var(--primary-dim); border-radius: 0.6mm;
+}
+
+.pdf-content .formula-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 1.5mm 2.5mm; margin: 5mm 0; padding: 4mm 5mm;
+  background: var(--bg-soft); border: 0.3mm solid var(--rule); border-radius: 3mm;
+  font-family: var(--deck-font-head); font-weight: 600; font-size: 10.5pt; color: var(--ink);
+  text-align: center;
+}
+.pdf-content .formula-row .op { color: var(--primary); font-family: var(--deck-font-mono); font-weight: 500; }
+.pdf-content .chapter-figure { margin: 5mm 0; }
+.pdf-content .chapter-figure img { max-width: 100%; border-radius: 3mm; }
+.pdf-content .chapter-figure figcaption {
+  margin-top: 2mm;
+  font-size: 8.5pt;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ─── Capa e encerramento ─── */
+.pdf-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20mm 22mm;
+}
+.pdf-cover .brand-logo { height: 64mm; width: auto; margin-bottom: 10mm; }
+.pdf-cover .eyebrow {
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 5mm;
+}
+.pdf-cover h1 {
+  font-family: var(--deck-font-head);
+  font-size: 30pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  margin: 0 0 5mm;
+  max-width: 150mm;
+}
+.pdf-cover .cover-subtitle {
+  font-size: 12pt;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 130mm;
+  margin: 0 0 10mm;
+}
+.pdf-cover .cover-meta {
+  display: flex;
+  gap: 8mm;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: var(--deck-font-mono);
+  font-size: 9pt;
+  color: var(--ink-soft);
+}
+.pdf-cover.pdf-closing .brand-logo { height: 40mm; margin-bottom: 8mm; }
+.pdf-cover.pdf-closing h1 { font-size: 24pt; }
+.pdf-cover.pdf-closing .pdf-closing-body {
+  text-align: left;
+  max-width: 130mm;
+  font-size: 11pt;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.pdf-cover.pdf-closing .pdf-closing-body p { margin: 0 0 4.5mm; }
+
+/* ─── Abertura de parte (formato com .part-divider) ─── */
+.pdf-part {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20mm 26mm;
+}
+.pdf-part .eyebrow {
+  font-family: var(--deck-font-body);
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 5mm;
+}
+.pdf-part h2 {
+  font-family: var(--deck-font-head);
+  font-size: 24pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+  max-width: 100mm;
+  margin: 0;
+}
+
+/* ─── Sumário ─── */
+.pdf-toc .eyebrow {
+  display: block;
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 14mm 0 4mm;
+}
+.pdf-toc h2 {
+  font-family: var(--deck-font-head);
+  font-size: 20pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 10mm;
+}
+/* O cabeçalho do sumário (título "Sumário") é um bloco medido e empacotado
+   por pack() como qualquer outro (o sumário agora pode virar 2+ folhas em
+   ebooks com muitas partes/capítulos). Sem essa zerada, a margin-top:14mm do
+   .eyebrow colapsaria através do wrapper .pdf-toc-head sem ser contabilizada
+   na medição por getBoundingClientRect (margem colapsada não conta na altura
+   do próprio elemento), fazendo o empacotador subestimar o espaço usado e
+   estourar a última linha da página por baixo do rodapé. */
+.pdf-toc-head .eyebrow { margin-top: 0; }
+.pdf-toc-line {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  padding: 3.4mm 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  font-size: 11pt;
+  color: var(--ink);
+}
+.pdf-toc-line .pdf-toc-num {
+  font-family: var(--deck-font-mono);
+  font-size: 9pt;
+  color: var(--primary);
+  flex-shrink: 0;
+  min-width: 8mm;
+}
+.pdf-toc-line .pdf-toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--rule);
+  transform: translateY(-1mm);
+  margin: 0 1mm;
+}
+.pdf-toc-line .pdf-toc-pg {
+  font-family: var(--deck-font-mono);
+  font-size: 9pt;
+  color: var(--primary-dim);
+  flex-shrink: 0;
+}
+
+/* Linha de agrupamento por parte (formato com .part-divider): rótulo maior,
+   sem pontilhado — mesma função do .toc-kicker da barra lateral, mas na
+   página de sumário do PDF. */
+.pdf-toc-kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 3mm;
+  margin: 7mm 0 1mm;
+  padding-top: 3mm;
+  font-family: var(--deck-font-head);
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.pdf-toc-kicker .pdf-toc-kicker-pg {
+  font-family: var(--deck-font-mono);
+  font-size: 9pt;
+  font-weight: 500;
+  color: var(--primary-dim);
+  flex-shrink: 0;
+}
+
+/* ─── Página de seção simples (introdução) ─── */
+.pdf-section-head { margin: 0 0 7mm; }
+.pdf-section-head .eyebrow {
+  display: block;
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 3mm;
+}
+.pdf-section-head h2 {
+  font-family: var(--deck-font-head);
+  font-size: 18pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}

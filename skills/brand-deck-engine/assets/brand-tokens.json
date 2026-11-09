@@ -1,0 +1,35 @@
+{
+  "_doc": "Cartão de identidade da marca. É o PRIMEIRO arquivo preenchido na configuração inicial (ver 'Antes do primeiro uso' no SKILL.md de brand-deck-engine e de brand-ebook-engine) e a fonte que orienta a geração de brand-tokens.css. Os valores abaixo são placeholders de exemplo — nunca use um deck ou ebook final com eles ainda nos valores de exemplo.",
+  "configurado": false,
+  "marca": "Sua Marca Aqui",
+  "tagline": "",
+  "essencia": "",
+  "mood": "",
+  "fonte": {
+    "display": "Sora",
+    "body": "Inter",
+    "mono": "JetBrains Mono",
+    "pesos_display": "300;500;600;700;800",
+    "pesos_body": "300;400;500;600"
+  },
+  "tema_unico": {
+    "bg": "#050B11",
+    "bgVoid": "#020408",
+    "bgSoft": "#0A1628",
+    "bgElevated": "#0F1E35",
+    "text": "#F8FAFC",
+    "textSoft": "#94A3B8",
+    "muted": "#687280",
+    "rule": "#334155",
+    "primary": "#00F0FF",
+    "primaryDim": "#00C4D4",
+    "secondary": "#6366F1",
+    "secondaryDim": "#4F51C8",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "error": "#EF4444",
+    "info": "#3B82F6"
+  },
+  "gradiente_assinatura": "linear-gradient(135deg, #00F0FF 0%, #6366F1 100%)",
+  "regra_design": "Regra 60/30/10: 60% fundo escuro (bg), 30% cor primária (ação/destaque), 10% cor secundária (sofisticação/acento). Glassmorphism obrigatório em cards de conteúdo (backdrop-filter blur + borda translúcida na cor primária). Sem emojis. Piso de fonte 18px em telas grandes (TV/projeção)."
+}

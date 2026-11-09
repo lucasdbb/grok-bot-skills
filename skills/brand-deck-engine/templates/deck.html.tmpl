@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — {{BRAND_NAME}}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* {{INLINE: brand-tokens.css}} */
+/* {{INLINE: brand-deck-engine.css}} */
+/* {{INLINE: brand-deck-exec.css}} */
+/* {{INLINE: brand-deck-visuals.css}} */
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck" data-time-limit="{{TIME_LIMIT_MIN}}">
+
+  <!-- {{SLIDES}} -->
+  <!--
+    Cada slide segue o contrato:
+    <section class="slide <layout>" data-notes="notas do apresentador">
+      <div class="bg-orb primary" style="top:-10vh;right:-10vw"></div>
+      <div class="brand-header">
+        {{INLINE: logos-brand.b64.txt (versao pequena, referenciada UMA VEZ e reaproveitada)}}
+        <span class="brand-wordmark">{{BRAND_NAME}}</span>
+      </div>
+      <span class="eyebrow">...</span>
+      <h1 class="brand-text-grad">...</h1>
+      <p class="frag" data-delay="1">...</p>
+    </section>
+  -->
+
+  <div class="deck-controls">
+    <button class="deck-btn deck-prev" aria-label="Slide anterior">‹</button>
+    <div class="deck-progress"><span class="deck-progress-fill"></span></div>
+    <button class="deck-btn deck-next" aria-label="Próximo slide">›</button>
+    <div class="deck-timer">00:00</div>
+  </div>
+
+  <div class="deck-notes"></div>
+</div>
+
+<script>
+/* {{INLINE: brand-deck-engine.js}} */
+</script>
+<!-- Opcional: carregar Chart.js (CDN ou vendored) + {{INLINE: brand-charts.js}} se o deck tiver gráficos -->
+
+</body>
+</html>

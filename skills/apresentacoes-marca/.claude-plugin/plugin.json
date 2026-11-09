@@ -1,0 +1,8 @@
+{
+  "name": "apresentacoes-marca",
+  "version": "1.0.0",
+  "description": "Decks e ebooks HTML autocontidos com a identidade visual da sua marca. Decks: slideshow (mecanica de palco: atalhos de teclado, timer, notas do apresentador, exportacao PDF 16:9). Ebooks: documento de leitura continua (sumario, barra de progresso, exportacao PDF paginada em modo livro), reaproveitando os mesmos tokens de marca dos decks. Identidade visual dark-first, glassmorphism e gradiente neural configuraveis (duas cores de destaque + logo). Na primeira vez que um deck ou ebook for pedido, pergunta o nome da marca, as duas cores e o logo antes de montar qualquer coisa.",
+  "license": "MIT",
+  "keywords": ["apresentacao", "deck", "slides", "ebook", "livro-digital", "branding", "design-system"],
+  "mcpServers": "./.mcp.json"
+}

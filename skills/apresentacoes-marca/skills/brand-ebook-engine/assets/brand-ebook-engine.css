@@ -1,0 +1,500 @@
+/*
+  brand-ebook-engine.css — mecânica de leitura dos ebooks da marca.
+  Agnóstica de marca: só consome variáveis definidas em brand-tokens.css
+  (mesma fonte de verdade dos decks — nunca duplicar hex aqui).
+  Reaproveita classes decorativas de brand-deck-visuals.css (.bg-orb, .brand-card-neural,
+  .brand-text-grad, .brand-pill-neural, .brand-termwin) — inline sempre depois desses dois arquivos.
+
+  Diferença estrutural em relação a brand-deck-engine.css: aqui não há "palco" de slide
+  (position:absolute + overflow:hidden). O ebook é um documento de rolagem contínua,
+  como um livro digital, com sumário fixo e barra de progresso de leitura.
+
+  Contrato de HTML esperado:
+    <div class="ebook" id="ebook" data-reading-minutes="20">
+      <div class="ebook-progress"><span class="ebook-progress-fill"></span></div>
+      <button class="ebook-toc-toggle" aria-label="Abrir sumário" aria-expanded="false">...</button>
+      <nav class="ebook-toc" id="ebook-toc" aria-label="Sumário">
+        <a class="toc-item" href="#cap-1" data-chapter="cap-1"><span class="toc-num">01</span>...</a>
+      </nav>
+      <main class="ebook-content">
+        <section class="ebook-page cover" id="capa">...</section>
+        <section class="ebook-page sumario" id="sumario">...</section>
+        <article class="chapter" id="cap-1" data-chapter-title="...">
+          <header class="chapter-head">...</header>
+          <div class="chapter-body">...</div>
+          <footer class="chapter-summary brand-card-neural">...</footer>
+        </article>
+        <section class="ebook-page closing" id="encerramento">...</section>
+      </main>
+    </div>
+*/
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-void);
+  /* Guarda defensiva: em ebooks muito longos (muitos capítulos/partes), o
+     acúmulo de arredondamento de sub-pixel em larguras percentuais/vw pode
+     deixar scrollWidth alguns pixels acima do viewport sem nenhum elemento
+     visível realmente vazando (confirmado: nada aparece ao rolar para a
+     direita, é só espaço em branco). overflow-x:hidden fecha essa brecha de
+     rolagem horizontal fantasma sem afetar o layout normal da página. */
+  overflow-x: hidden;
+}
+
+.ebook {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--deck-font-body);
+}
+
+/* ─── Barra de progresso de leitura ─── */
+.ebook-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  z-index: 80;
+}
+.ebook-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-brand-90);
+}
+
+/* ─── Sumário (sidebar fixa no desktop, gaveta no mobile) ─── */
+.ebook-toc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  padding: 3.5vh 1.4vw 3vh;
+  overflow-y: auto;
+  background: var(--bg-void);
+  border-right: 1px solid var(--rule);
+  z-index: 70;
+}
+.ebook-toc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-bottom: 2.4em;
+  padding-bottom: 1.2em;
+  border-bottom: 1px solid var(--rule);
+}
+.ebook-toc-head .brand-logo { height: 26px; width: auto; display: block; }
+.ebook-toc-head .brand-wordmark {
+  font-family: var(--deck-font-head);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.toc-kicker {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.6em 0 0.6em;
+}
+.toc-kicker:first-of-type { margin-top: 0; }
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  padding: 0.55em 0.6em;
+  margin: 0.1em 0;
+  border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.toc-item .toc-num {
+  font-family: var(--deck-font-mono);
+  font-size: 0.75rem;
+  color: var(--primary-dim);
+  flex-shrink: 0;
+}
+.toc-item:hover { background: rgba(var(--primary-rgb), 0.06); color: var(--ink); }
+.toc-item.active {
+  color: var(--ink);
+  border-left-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.08);
+}
+.toc-item.active .toc-num { color: var(--primary); }
+
+.ebook-toc-toggle {
+  display: none;
+  position: fixed;
+  top: 1.6vh;
+  left: 1.6vh;
+  z-index: 90;
+  width: 2.6rem;
+  height: 2.6rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* ─── Conteúdo ─── */
+.ebook-content {
+  margin-left: 280px;
+}
+
+.ebook-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6vh 7vw;
+  overflow: hidden;
+}
+
+.ebook-page.cover .eyebrow,
+.ebook-page.closing .eyebrow {
+  font-family: var(--deck-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 1em;
+}
+.ebook-page.cover h1,
+.ebook-page.closing h2 {
+  font-family: var(--deck-font-head);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0.2em 0;
+  max-width: 16ch;
+}
+.cover-subtitle {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  color: var(--ink-soft);
+  max-width: 42ch;
+  line-height: 1.5;
+  margin: 0.6em 0 1.8em;
+}
+.cover-meta {
+  display: flex;
+  gap: 1.6em;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: var(--deck-font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.cover-meta span { white-space: nowrap; }
+
+.reading-time-pill { margin-top: 1.6em; }
+
+/* ─── Sumário em página (também serve de fallback para impressão) ─── */
+.ebook-page.sumario { align-items: stretch; text-align: left; max-width: 760px; margin: 0 auto; }
+.ebook-page.sumario h2 { font-family: var(--deck-font-head); font-size: clamp(1.6rem, 2.4vw, 2.1rem); margin-bottom: 1em; }
+/* Rótulo de agrupamento por parte na página de sumário (formato com
+   .part-divider) — mesma função do .toc-kicker da barra lateral. */
+.sumario-kicker {
+  font-family: var(--deck-font-head);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--secondary);
+  margin: 1.6em 0 0.4em;
+}
+.sumario-kicker:first-child { margin-top: 0; }
+
+.sumario-list { list-style: none; margin: 0; padding: 0; }
+.sumario-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.9em 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 1.05rem;
+}
+.sumario-list a { color: var(--ink); text-decoration: none; }
+.sumario-list a:hover { color: var(--primary); }
+.sumario-list .sumario-num { color: var(--primary-dim); font-family: var(--deck-font-mono); margin-right: 0.8em; }
+
+/* ─── Divisor de parte (formato "curso", agrupa capítulos por módulo) ─── */
+.part-divider {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6vh 7vw;
+}
+.part-divider .eyebrow { color: var(--secondary); }
+.part-divider h2 { font-family: var(--deck-font-head); font-size: clamp(1.8rem, 3.4vw, 2.6rem); max-width: 20ch; }
+
+/* ─── Capítulo ─── */
+.chapter {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 9vh 7vw 7vh;
+  scroll-margin-top: 4vh;
+  border-bottom: 1px solid var(--rule);
+}
+.chapter:last-of-type { border-bottom: none; }
+
+.chapter-head { margin-bottom: 2em; }
+.chapter-head .chapter-num {
+  display: inline-block;
+  font-family: var(--deck-font-mono);
+  font-size: 0.85rem;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8em;
+}
+.chapter-head h2 {
+  font-family: var(--deck-font-head);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+.chapter-intro {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  /* Texto de leitura corrida: var(--ink) cheio, não var(--ink-soft), para
+     legibilidade máxima (ver docs/EXPORTACAO-PDF.md / regra de ouro de cor de
+     texto). Reservar --ink-soft para chrome secundário (nav, legendas, meta). */
+  color: var(--ink);
+  margin: 0;
+}
+
+.chapter-body {
+  font-size: clamp(1rem, 1.05vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--ink);
+}
+.chapter-body h3 {
+  font-family: var(--deck-font-head);
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.8em 0 0.6em;
+}
+.chapter-body p { margin: 0 0 1.3em; }
+.chapter-body ul, .chapter-body ol { margin: 0 0 1.3em; padding-left: 1.4em; }
+.chapter-body li { margin-bottom: 0.5em; }
+.chapter-body a { color: var(--primary); text-decoration: underline; text-decoration-color: rgba(var(--primary-rgb), 0.4); }
+.chapter-body a:hover { text-decoration-color: var(--primary); }
+.chapter-body strong { color: var(--ink); font-weight: 600; }
+.chapter-body code {
+  font-family: var(--deck-font-mono);
+  font-size: 0.9em;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+
+.pull-quote {
+  margin: 2.4em 0;
+  padding: 2em 2.2em;
+  font-family: var(--deck-font-head);
+  font-size: 1.3rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 0.8em;
+  font-family: var(--deck-font-body);
+  font-style: normal;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.chapter-figure { margin: 2.4em 0; }
+.chapter-figure img { width: 100%; height: auto; border-radius: var(--radius-lg); display: block; }
+.chapter-figure figcaption {
+  margin-top: 0.7em;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.chapter-summary { margin-top: 2.6em; }
+.chapter-summary .eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.8em;
+  display: block;
+}
+.chapter-summary ul { margin: 0; padding-left: 1.2em; color: var(--ink); }
+.chapter-summary li { margin-bottom: 0.4em; }
+
+/* Tabela comparativa dentro do corpo do capítulo (ex.: conceito × contra-exemplo).
+   Rolagem horizontal própria em telas estreitas para nunca vazar a coluna de leitura. */
+.chapter-body .table-wrap { overflow-x: auto; margin: 0 0 1.6em; }
+.chapter-body table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.chapter-body th, .chapter-body td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.7em 1em;
+  border-bottom: 1px solid var(--rule);
+}
+.chapter-body th {
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  border-bottom: 1px solid var(--primary-dim);
+}
+.chapter-body td:first-child { color: var(--ink); font-weight: 600; }
+
+/* Checklist de aplicação: caixa desenhada em CSS, nunca caractere unicode de checkbox. */
+.checklist { list-style: none; margin: 0 0 1.3em; padding: 0; }
+.checklist li {
+  position: relative;
+  padding-left: 1.9em;
+  margin-bottom: 0.6em;
+}
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 1.05em;
+  height: 1.05em;
+  border: 1.5px solid var(--primary-dim);
+  border-radius: 3px;
+}
+
+/* Fórmula/framework curto em destaque (ex.: A + B + C = resultado). */
+.formula-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em 0.7em;
+  margin: 1.8em 0;
+  padding: 1.1em 1.4em;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  font-family: var(--deck-font-head);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  text-align: center;
+}
+.formula-row .op { color: var(--primary); font-family: var(--deck-font-mono); font-weight: 500; }
+
+.footnotes {
+  margin-top: 3em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.footnotes ol { padding-left: 1.2em; margin: 0; }
+.footnotes li { margin-bottom: 0.5em; }
+.footnote-ref {
+  font-family: var(--deck-font-mono);
+  font-size: 0.72em;
+  color: var(--primary);
+  vertical-align: super;
+  text-decoration: none;
+  margin-left: 0.1em;
+}
+
+/* ─── Responsividade ─── */
+@media (max-width: 900px) {
+  .ebook-toc {
+    left: -300px;
+    transition: left 0.25s ease;
+    width: 270px;
+  }
+  .ebook-toc.open { left: 0; }
+  .ebook-toc-toggle { display: flex; }
+  .ebook-toc-head { margin-top: 3.2rem; }
+  .ebook-content { margin-left: 0; }
+  .chapter { padding: 8vh 6vw 5vh; }
+  .ebook-page { padding: 5vh 6vw; }
+}
+
+/* ─── Impressão / exportação PDF — livro contínuo, uma parte/capítulo por página ─── */
+@media print {
+  html, body { background: var(--bg); }
+  .ebook-progress, .ebook-toc-toggle, .ebook-toc { display: none !important; }
+  .ebook-content { margin-left: 0; }
+  /* Capa/encerramento/divisor de parte são "página de título": mantêm altura cheia
+     e centralização vertical. Sumário (e qualquer página de conteúdo curto que
+     reaproveite .sumario, como a introdução) não precisa de página inteira reservada
+     só para si — forçar 90vh nelas deixava a impressão com páginas quase em branco. */
+  .ebook-page.cover, .ebook-page.closing, .part-divider {
+    min-height: 90vh;
+    page-break-after: always;
+    break-after: page;
+  }
+  .ebook-page.sumario {
+    min-height: 0;
+    justify-content: flex-start;
+    padding-top: 4vh;
+    page-break-after: always;
+    break-after: page;
+  }
+  .chapter {
+    max-width: none;
+    padding: 0;
+    margin: 0 auto;
+    border-bottom: none;
+    page-break-before: always;
+    break-before: page;
+  }
+  .chapter:first-of-type { page-break-before: avoid; break-before: avoid; }
+  .chapter-head, .chapter-figure, .pull-quote, .chapter-summary {
+    break-inside: avoid;
+  }
+  .chapter-body p { orphans: 3; widows: 3; }
+  @page { size: A4; margin: 20mm 18mm; }
+}

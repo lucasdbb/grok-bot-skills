@@ -1,0 +1,117 @@
+/*
+  brand-tokens.css — camada de MARCA deste pacote.
+  Fonte de verdade legível por humano dos tokens em brand-tokens.json.
+  A engine (brand-deck-engine.css/.js) só conhece estas variáveis — nunca hex direto.
+  Dark-first único: não há bloco de tema claro por slide.
+
+  ======================================================================
+  PLACEHOLDER — estes valores são de exemplo (a paleta cyan/purple de
+  referência). Eles PRECISAM ser substituídos na configuração inicial da
+  marca (ver "Antes do primeiro uso" em skills/brand-deck-engine/SKILL.md
+  e em skills/brand-ebook-engine/SKILL.md) antes de qualquer deck ou
+  ebook final sair com esta paleta. Nunca entregue um material à marca
+  com os valores de exemplo abaixo.
+  ======================================================================
+
+  --primary-rgb e --secondary-rgb existem à parte de --primary/--secondary
+  porque CSS não extrai os canais R/G/B de uma variável hex sozinho: eles
+  alimentam todo rgba(var(--primary-rgb), 0.3) usado para glow/transparência
+  na engine. Ao trocar --primary/--secondary, troque também esses dois,
+  com os mesmos canais em formato "R, G, B" (sem "rgb(" em volta).
+*/
+:root {
+  /* Tipografia — fontes neutras, não exigem troca; ajuste se a marca já
+     tiver uma tipografia própria definida em guia de marca. */
+  --deck-font-head: 'Sora', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --deck-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --deck-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Fundos — tema dark neutro, raramente precisa mudar */
+  --bg: #050B11;
+  --bg-void: #020408;
+  --bg-soft: #0A1628;
+  --bg-elevated: #0F1E35;
+
+  /* Texto — tema dark neutro, raramente precisa mudar */
+  --ink: #F8FAFC;
+  --ink-soft: #94A3B8;
+  --muted: #687280;
+  --rule: #334155;
+
+  /* Acentos de marca — SUBSTITUA pelas duas cores de destaque da marca */
+  --primary: #00F0FF;
+  --primary-dim: #00C4D4;
+  --primary-rgb: 0, 240, 255;
+  --secondary: #6366F1;
+  --secondary-dim: #4F51C8;
+  --secondary-rgb: 99, 102, 241;
+
+  /* Feedback semântico — neutro, raramente precisa mudar */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+
+  /* Gradiente assinatura da marca */
+  --gradient-brand: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --gradient-brand-90: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+
+  /* Glassmorphism (obrigatório em cards de conteúdo) */
+  --glass-bg: rgba(10, 22, 40, 0.7);
+  --glass-border: rgba(var(--primary-rgb), 0.12);
+  --glass-blur: 20px;
+
+  /* Sombras / glow */
+  --glow-primary-sm: 0 0 12px rgba(var(--primary-rgb), 0.3);
+  --glow-primary-md: 0 0 24px rgba(var(--primary-rgb), 0.4), 0 0 48px rgba(var(--primary-rgb), 0.15);
+  --glow-secondary-md: 0 0 24px rgba(var(--secondary-rgb), 0.4), 0 0 48px rgba(var(--secondary-rgb), 0.15);
+
+  /* Raios */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+/* Fundo do documento (fora do palco do slide) */
+body {
+  background-color: var(--bg-void);
+}
+
+/* Header de marca — logo no topo de todo slide */
+.brand-header {
+  position: absolute;
+  top: 3vh;
+  left: 4vw;
+  display: flex;
+  align-items: center;
+  gap: 0.75vw;
+  z-index: 5;
+}
+.brand-header .brand-logo {
+  height: 3.2vh;
+  width: auto;
+  display: block;
+}
+.brand-header .brand-wordmark {
+  font-family: var(--deck-font-head);
+  font-weight: 600;
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+/* Logos de capa/encerramento — maiores */
+.cover-logos,
+.closing-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+}
+.cover-logos .brand-logo,
+.closing-logos .brand-logo {
+  height: 9vh;
+  width: auto;
+}

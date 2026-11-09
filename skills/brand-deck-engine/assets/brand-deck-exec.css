@@ -1,0 +1,68 @@
+/*
+  brand-deck-exec.css — componentes de conteúdo executivo (KPI, tabela, veredito).
+  Usa só variáveis de brand-tokens.css — sem hex fixo.
+*/
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.4vw;
+  margin: 2vh 0;
+}
+.kpi-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.6vh 1.4vw;
+}
+.kpi-card .kpi-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.4em;
+}
+.kpi-card .kpi-value {
+  font-family: var(--deck-font-head);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+.kpi-card .kpi-value.up { color: var(--success); }
+.kpi-card .kpi-value.down { color: var(--error); }
+.kpi-card .kpi-delta { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.2em; }
+
+.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.brand-table th, .brand-table td {
+  padding: 0.8vh 1vw;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.brand-table th {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+}
+.brand-table td { color: var(--ink-soft); }
+
+.veredito {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 1em;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.veredito.ok { background: rgba(16, 185, 129, 0.12); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+.veredito.alerta { background: rgba(245, 158, 11, 0.12); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+.veredito.critico { background: rgba(239, 68, 68, 0.12); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.3); }

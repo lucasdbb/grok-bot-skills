@@ -1,0 +1,24 @@
+<!--
+  logos-brand.b64.txt — logo da marca em base64, pronto para ser inlineado
+  no HTML final dos decks e ebooks (nunca referencie um arquivo externo:
+  decks e ebooks são sempre autocontidos, um único .html).
+
+  VAZIO POR PADRÃO. Preenchido na configuração inicial da marca (ver
+  "Antes do primeiro uso" em skills/brand-deck-engine/SKILL.md e em
+  skills/brand-ebook-engine/SKILL.md).
+
+  Formato esperado, duas tags <img>, nesta ordem, cada uma em uma linha:
+
+  <img class="brand-logo brand-logo-sm" alt="Nome da marca" src="data:image/png;base64,....">
+  <img class="brand-logo brand-logo-lg" alt="Nome da marca" src="data:image/png;base64,....">
+
+  A primeira (brand-logo-sm) é usada no cabeçalho do sumário/header de
+  slide; a segunda (brand-logo-lg) na capa e no encerramento. Se a marca
+  usar a MESMA imagem nos dois tamanhos, repita a mesma string base64 nas
+  duas tags — o CSS já redimensiona cada uma para a altura certa.
+
+  SEM LOGO AINDA? Sem problema: deixe este arquivo vazio (como está) e,
+  ao montar o deck/ebook, simplesmente omita as duas tags <img> onde o
+  template as referencia — o wordmark em texto (brand-wordmark, já com o
+  nome da marca) continua aparecendo sozinho no lugar do logo.
+-->

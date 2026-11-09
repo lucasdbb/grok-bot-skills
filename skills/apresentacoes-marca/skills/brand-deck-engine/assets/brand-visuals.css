@@ -1,0 +1,168 @@
+/*
+  brand-deck-visuals.css — camada visual "neural/glow" da marca.
+  Inspirada esteticamente em decks dark/neon que funcionam bem na prática,
+  porém recriada do zero na paleta e tipografia da marca (cor primária/secundária, Sora/Inter)
+  e com glassmorphism (exigência do design system da marca, ausente na referência original).
+  Carregada depois de brand-tokens.css e brand-deck-engine.css.
+*/
+
+/* ─── Glow orbs de fundo ─── */
+.bg-orb {
+  position: absolute;
+  width: 45vw;
+  height: 45vw;
+  border-radius: 50%;
+  filter: blur(9vw);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+}
+.bg-orb.primary { background: radial-gradient(circle, var(--primary) 0%, transparent 65%); }
+.bg-orb.secondary { background: radial-gradient(circle, var(--secondary) 0%, transparent 65%); }
+.bg-orb.sm { width: 28vw; height: 28vw; opacity: 0.25; }
+
+/* ─── Textura de pontos ─── */
+.bg-grid-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(var(--primary-rgb), 0.06) 1px, transparent 1.4px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 90%);
+}
+
+/* ─── Card com glassmorphism + borda gradiente neural ───
+   Mesma técnica do .card-neural-border de um design system de referência:
+   pseudo-elemento com padding:1px + mask-composite:exclude. */
+.brand-card-neural {
+  position: relative;
+  padding: 2.2vh 2vw;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  overflow: hidden;
+}
+.brand-card-neural::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--gradient-brand);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.brand-card-neural:hover {
+  box-shadow: var(--glow-primary-sm);
+}
+
+/* Grid de cards neural — reaproveitável em slides tipo "conceito"/"ferramentas" */
+.brand-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.4vw;
+  margin: 2vh 0;
+}
+
+/* ─── Terminal simulado (contextos didáticos) ─── */
+.brand-termwin {
+  background: var(--bg-void);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+  font-family: var(--deck-font-mono);
+}
+.brand-termwin .tw-head {
+  display: flex;
+  gap: 8px;
+  padding: 1vh 1.2vw;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--rule);
+}
+.brand-termwin .tw-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.brand-termwin .tw-dot:nth-child(1) { background: var(--error); }
+.brand-termwin .tw-dot:nth-child(2) { background: var(--warning); }
+.brand-termwin .tw-dot:nth-child(3) { background: var(--success); }
+.brand-termwin .tw-body {
+  padding: 1.6vh 1.6vw;
+  color: var(--primary);
+  font-size: 1rem;
+  line-height: 1.6;
+  /* Preserva quebras de linha e espaços literais (indentação de árvore ASCII,
+     saída de comando multilinha) sem perder o word-wrap em telas estreitas —
+     sem isso o HTML colapsa tudo em texto corrido, como qualquer texto comum. */
+  white-space: pre-wrap;
+}
+.brand-termwin .tw-body .prompt::before { content: "$ "; color: var(--secondary); }
+.brand-termwin .tw-body .out { color: var(--ink-soft); }
+
+/* ─── Texto com glow / gradiente ─── */
+.brand-text-primary { color: var(--primary); text-shadow: 0 0 16px rgba(var(--primary-rgb), 0.5); }
+.brand-text-secondary { color: var(--secondary); text-shadow: 0 0 16px rgba(var(--secondary-rgb), 0.5); }
+.brand-text-grad {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(var(--primary-rgb), 0.35));
+}
+.brand-hollow-neon {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--primary);
+  text-shadow: 0 0 6px rgba(var(--primary-rgb), 0.85), 0 0 22px rgba(var(--primary-rgb), 0.55), 0 0 60px rgba(var(--primary-rgb), 0.35);
+}
+
+/* ─── Pill / badge com borda gradiente ─── */
+.brand-pill-neural {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 1.1em;
+  border-radius: var(--radius-full);
+  position: relative;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: rgba(10, 22, 40, 0.5);
+}
+.brand-pill-neural::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--gradient-brand);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Print: orbs e glow removidos para evitar artefato de blur() em PDF.
+   A borda-gradiente de .brand-card-neural/.brand-pill-neural usa mask-composite (::before
+   com padding:1px + mask exclude) para simular um degradê só na borda. O rasterizador
+   de impressão do Chrome (--print-to-pdf) não respeita esse mask-composite de forma
+   confiável: o ::before pinta um retângulo sólido cobrindo todo o card, escondendo o
+   texto. Por isso, em impressão, o ::before é removido e o card volta a uma borda
+   sólida simples — sem gradiente, mas com o texto sempre legível. */
+@media print {
+  .bg-orb, .bg-grid-dots { display: none !important; }
+  .brand-card-neural, .brand-pill-neural { backdrop-filter: none; background: var(--bg-soft); }
+  .brand-card-neural::before, .brand-pill-neural::before { display: none !important; }
+  .brand-card-neural { border: 1px solid var(--primary-dim); }
+  .brand-pill-neural { border: 1px solid var(--primary-dim); }
+  .brand-hollow-neon { color: var(--primary); -webkit-text-stroke: 0; text-shadow: none; }
+}
