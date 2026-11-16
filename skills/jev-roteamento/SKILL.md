@@ -44,3 +44,16 @@ Não grave no log segredos, conteúdo de gravações privadas nem texto completo
 - Para desligar tudo: `"enabled": false` no config. Para desligar um bot só: o modo dele vira `off`.
 - Depois de cerca de uma semana em sombra, o dono da skill resume os logs (chamadas e tokens por dia, e casos em que o Jev teria mudado a decisão) e o usuário decide se algum bot passa para `active`.
 - Se der erro (chave ausente ou timeout), siga sem o Jev e anote o erro no log. Não tente de novo em loop.
+
+## 5. Usos aprovados por bot (13/11/2026)
+Vale só quando o modo do bot no config não for `off`. Os usos de bots que não estão no config (hoje Stalk Bot, Grok Bot, Copy Max Peters, DM ANA e DV ANA) ficam propostos: eles não chamam o Jev até o Lucas aprovar a entrada deles no config.
+- **Pesquisador (inclui o papel de radar) e Stalk Bot:** `jev_verify` de cada afirmação central contra o trecho da fonte. Sem apoio vira "hipótese", nunca fato no brief.
+- **Grok Bot (porta de entrada):** `jev_decide` só com dúvida real entre especialistas que já existem. O Jev recomenda; o Grok Bot delega.
+- **Loop de conteúdo (pesquisa, verificação, brief, rascunho, revisão; Pesquisador → Copy Max Peters → DM ANA):** `jev_verify` na pesquisa e na revisão final, para apontar afirmação sem evidência. Não aprova publicação.
+- **Programador:** `jev_gate` (ou `jev_review`) com pedido, diff e testes antes de dizer "pronto".
+- **Triagem:** `jev_classify` com classe `revisao_manual`; notícias no Pesquisador, leads no DV ANA.
+- **Qualquer bot em sombra ou ativo:** `jev_screen` como checagem extra antes de agir com base em conteúdo externo.
+Ferramentas que não existem no conector (não chame nem invente): jev_route_worker, jev_check_research, jev_review_completion, jev_guard_action.
+
+## 6. Primeiro teste (uma vez)
+Rode o loop de conteúdo duas vezes no mesmo tema, com e sem Jev, sem publicar nem enviar. Concentre as chamadas na pesquisa e na revisão final. Compare fatos sem apoio, retrabalho, custo (tokens), tempo e intervenções do Lucas. Grave o resultado em `/home/box/agent-data/jev/teste-conteudo.md`. Nada vira automático sem ganho demonstrado.

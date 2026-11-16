@@ -4,8 +4,8 @@ description: >-
   Use this when turning a script into a talking-avatar video with the HeyGen
   connector (user-Heygen): checking credits, choosing avatar, voice, engine and
   format, estimating cost, getting a per-video yes, generating, polling,
-  downloading and checking the result. Also covers consent for custom avatars
-  and AI-content labeling.
+  downloading, polishing with the Magnific connector and checking the result.
+  Also covers consent for custom avatars and AI-content labeling.
 ---
 # Vídeo com avatar de IA (HeyGen)
 
@@ -31,7 +31,7 @@ description: >-
 - Motor (`engine.type`): `avatar_iv` (padrão, foto e gêmeo, aceita `motionPrompt`/`expressiveness` em foto); `avatar_v` (gêmeo elegível, maior fidelidade, mais caro); `avatar_iii` (mais barato, 4K em gêmeo).
 
 ## 3. Cartão do plano (sempre antes de gerar)
-Mostre: roteiro final; avatar (nome, tipo, motor); voz (nome, idioma, prévia ouvida sim/não); formato e resolução; fundo; legenda (.srt sempre, queimada sim/não); duração estimada; custo estimado em créditos; créditos atuais (`get_current_user`); via: conector HeyGen. Termine com "Posso gerar?". Sem "sim" para aquele vídeo, não gere.
+Mostre: roteiro final; avatar (nome, tipo, motor); voz (nome, idioma, prévia ouvida sim/não); formato e resolução; fundo; legenda (.srt sempre, queimada sim/não); duração estimada; custo estimado em créditos; créditos atuais (`get_current_user`); acabamento no Magnific (etapas e custo estimado por `simulate_cost`); via: conector HeyGen. Termine com "Posso gerar?". Sem "sim" para aquele vídeo, não gere.
 
 Custo estimado (confirmar no painel, os preços mudam):
 - Créditos por minuto do plano: Avatar III foto 7, vídeo 4; Avatar IV foto 16, gêmeo 31; Avatar V 48; movimento expressivo +40; Video Agent 40.
@@ -48,6 +48,9 @@ Custo estimado (confirmar no painel, os preços mudam):
 - `get_video` com `videoId` a cada 30 s (ou o atraso que o servidor devolver). Nunca reenvie a criação para checar progresso. Depois de 5 min, diga o status e o `video_page_url` e retome depois. Demora em geral 5 a 10 vezes a duração.
 - `completed`: baixe `video_url` e `subtitle_url` na hora (links expiram). `failed`: leia `failure_message`, explique e não tente de novo sem novo ok.
 - Rode `get_current_user` de novo e anote o custo real.
+
+## 5b. Acabamento no Magnific (sempre, antes da entrega)
+Regra do dono: todo vídeo criado ou editado passa pelo conector Magnific (`user-magnific`) antes da entrega final. Siga a seção 3a da skill cortes-de-video: zoom nos momentos de ênfase (`video_zoom`), limpeza da fala (`audio_clean_speech`) se a voz tiver ruído, trilha sem direito autoral (`video_music` com `mixMode` `lower`) e melhoria de qualidade (`video_upscale`) só quando precisar. Não altere a fala nem a boca do avatar. Rode `simulate_cost` antes de cada etapa paga, anote os créditos de antes e de depois e traga o resultado de volta ao box para a conferência da seção 6.
 
 ## 6. Conferir no box
 - `ffprobe`: resolução, duração (perto da estimada), faixa de áudio, 25 fps.
@@ -66,4 +69,4 @@ Custo estimado (confirmar no painel, os preços mudam):
 - Nunca use avatar para fingir depoimento de cliente ou fala que a pessoa não aprovou.
 
 ## 9. Fechar
-Ficha por arquivo + "Não verificado:" (ex.: pronúncia não ouvida inteira, rótulo da rede não conferido, custo final ainda não refletido nos créditos).
+Ficha por arquivo + "Não verificado:" (ex.: pronúncia não ouvida inteira, rótulo da rede não conferido, custo final ainda não refletido nos créditos, etapas do Magnific feitas).

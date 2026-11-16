@@ -3,7 +3,8 @@ name: passagem-entre-bots
 description: >-
   Use quando um bot escreve um arquivo para outro bot ler, depende de um arquivo
   que outro bot deveria ter deixado (pastas de passagem na box), ou quando manda
-  uma tarefa a outro bot por mensagem (delegação).
+  uma tarefa a outro bot por mensagem (delegação). Toda passagem deixa um
+  HANDOFF.md em /workspace/handoffs/.
 ---
 # Passagem entre bots
 
@@ -71,8 +72,35 @@ Use esta seção quando você manda uma tarefa a outro bot (não só deixa um ar
 - FYI sem pedido.
 - Corrigir depois porque uma regra não estava no primeiro recado.
 
+## 6. HANDOFF.md: toda passagem deixa um arquivo (Lucas, 15/11/2026)
+O contexto mora no arquivo, não no chat. Qualquer bot retoma de onde o outro parou lendo só o arquivo.
+
+- **Quando:** todo SendToAgent com pedido ou entrega (não vale para FYI ou agradecimento).
+- **Onde:** `/workspace/handoffs/AAAA-MM-DD-<de>-para-<para>-<slug>.md` (nomes curtos, sem acento, minúsculas). Crie a pasta com `mkdir -p`.
+- **A mensagem leva só o pedido em uma linha e o caminho do arquivo.** O resto fica no arquivo.
+- **Modelo (os 5 primeiros campos são obrigatórios):**
+
+```
+# HANDOFF: <tarefa em uma linha>
+- tarefa: o que foi pedido, por quem e quando (palavras do Lucas, se vieram dele)
+- status: completo | parcial | travado
+- saída: caminho ou link do entregável (ou "ainda não há")
+- fontes: links, arquivos e horários de onde vieram os fatos
+- próximo dono: bot que continua e o que ele faz
+- decisões: o que já foi decidido e por quem
+- dúvidas: o que não foi verificado
+- não assumir: o que o próximo deve reconferir na fonte antes de agir
+[AAAA-MM-DD HH:MM Recife] [Nome do bot] FEITO|TRAVADO -> caminho -> próximo bot
+```
+
+- O brief de delegação da seção 5 vai neste mesmo arquivo: os 11 itens entram em "tarefa" e nos campos ao lado.
+- **Quem recebe** não edita o arquivo (seção 1). Responde em `<mesmo nome>-resposta.md`, no mesmo modelo, e manda só o caminho de volta.
+- **Antes de ação com consequência** (dinheiro, publicação, envio, exclusão), reabra a fonte citada em "fontes". Não confie no número copiado no handoff.
+- Nada sensível (seção 4). Dado privado (saúde, Isa, gravações) não vai para `/workspace/handoffs/`.
+
 ## Verificação antes de entregar
 - O arquivo que você escreveu termina com a linha de status correta.
+- Se passou ou recebeu tarefa por mensagem: existe o HANDOFF.md em `/workspace/handoffs/` com os 5 campos obrigatórios e a mensagem só apontou o caminho.
 - Você conferiu a linha de status do arquivo que leu, e o que faltou aparece em "Não verificado:".
 - Se você delegou por mensagem: o brief tinha os 11 itens (o que faltou vai em "Não verificado:"); a resposta pedida era só FEITO ou TRAVADO com o caminho; e ficou dito quem mostra o resultado ao dono.
 - Se você recebeu um brief: procurou o que faltava antes de perguntar; a entrega foi uma, com prova e caminho.
