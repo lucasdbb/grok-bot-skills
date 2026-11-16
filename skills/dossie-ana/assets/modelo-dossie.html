@@ -1,0 +1,759 @@
+<title>Dossiê de lead ANA · gabarito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: dossiê de pré-call em abas; faixa de identidade no topo, conteúdo em coluna de leitura, dashboard em grade. Identidade ANA dark-first, visual único. */
+:root{
+  --space:#050B11;
+  --panel:#0B1520;
+  --panel-2:#0F1C2A;
+  --line:rgba(0,240,255,.14);
+  --line-soft:rgba(148,178,204,.12);
+  --cyan:#00F0FF;
+  --purple:#6366F1;
+  --ink:#E8F1F8;
+  --muted:#8FA3B5;
+  --dim:#5B7083;
+  --ok:#34D399;
+  --warn:#FBBF24;
+  --risk:#F87171;
+  --neural:linear-gradient(135deg,#00F0FF,#6366F1);
+  --f-display:'Sora',ui-sans-serif,system-ui,sans-serif;
+  --f-body:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--space)}
+body{background:var(--space);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(900px 500px at 85% -10%,rgba(99,102,241,.16),transparent 60%),radial-gradient(700px 420px at -10% 10%,rgba(0,240,255,.09),transparent 60%)}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--cyan)}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Cabeçalho */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;letter-spacing:.02em}
+.brand-mark{width:30px;height:30px;border-radius:9px;background:var(--neural);display:grid;place-items:center;color:var(--space);font-weight:800;font-size:13px}
+.brand small{display:block;font-family:var(--f-body);font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.stamp{font-size:12px;color:var(--muted);border:1px solid var(--line-soft);padding:6px 12px;border-radius:999px}
+
+.hero{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;padding-bottom:26px;border-bottom:1px solid var(--line-soft)}
+.hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;line-height:1.05;margin-top:10px}
+.hero h1 span{background:var(--neural);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:12px;color:var(--muted);max-width:62ch}
+.idcard{min-width:250px}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:13px}
+.idcard dt{color:var(--dim)}
+.idcard dd{margin:0;font-weight:600}
+
+.thesis{margin-top:22px;padding:18px 22px;border-radius:16px;background:linear-gradient(135deg,rgba(0,240,255,.08),rgba(99,102,241,.10));border:1px solid var(--line);font-family:var(--f-display);font-size:clamp(16px,2.2vw,19px);line-height:1.45;font-weight:600}
+
+/* Abas */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-block:26px 30px;padding-block:10px;background:rgba(5,11,17,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.tabs nav{display:flex;gap:6px;overflow-x:auto;padding:4px;border:1px solid var(--line-soft);border-radius:14px;width:max-content;max-width:100%}
+.tab{appearance:none;border:0;background:transparent;color:var(--muted);font:600 14px var(--f-body);padding:9px 18px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--neural);color:var(--space)}
+.tab:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+section.view{display:grid;gap:34px}
+.block{display:grid;gap:16px}
+.block>h2{font-size:22px;font-weight:700}
+.block>.lead{color:var(--muted);max-width:70ch}
+
+.glass{background:rgba(11,21,32,.72);border:1px solid var(--line);border-radius:18px;padding:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.plain{background:var(--panel);border:1px solid var(--line-soft);border-radius:16px;padding:20px}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--line-soft);border-radius:16px;padding:18px}
+.kpi b{display:block;font-family:var(--f-display);font-size:32px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi span{display:block;margin-top:6px;font-size:13px;color:var(--muted);line-height:1.4}
+.kpi.hl{border-color:rgba(0,240,255,.35);background:linear-gradient(160deg,rgba(0,240,255,.08),var(--panel) 60%)}
+.kpi.hl b{color:var(--cyan)}
+
+ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ul.clean li{padding-left:18px;position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--cyan)}
+ul.clean li.p::before{background:var(--purple)}
+.k{font-weight:600;color:var(--ink)}
+
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid}
+.tag.ok{color:var(--ok);border-color:rgba(52,211,153,.35)}
+.tag.inf{color:var(--warn);border-color:rgba(251,191,36,.35)}
+.tag.no{color:var(--risk);border-color:rgba(248,113,113,.35)}
+
+/* Linha do tempo */
+.timeline{display:grid;gap:0;position:relative}
+.tl{display:grid;grid-template-columns:92px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.tl:last-child{border-bottom:0}
+.tl time{font-family:var(--f-display);font-weight:600;color:var(--cyan);font-size:14px}
+.tl p{color:var(--ink)}
+.tl p small{display:block;color:var(--muted);font-size:13px}
+
+/* Dores */
+.pain{display:grid;gap:8px}
+.pain h4{font-size:16px;font-weight:600}
+.pain .fit{font-size:13px;color:var(--muted)}
+.pain .fit b{color:var(--cyan);font-weight:600}
+
+.alert{border-left:3px solid var(--warn);background:rgba(251,191,36,.06);border-radius:0 14px 14px 0;padding:16px 20px}
+.alert h4{font-size:15px;color:var(--warn);margin-bottom:6px}
+
+/* Roteiro */
+.phase{display:grid;grid-template-columns:210px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--line-soft)}
+.phase:first-of-type{border-top:0}
+.phase-head{display:grid;gap:6px;align-content:start}
+.phase-head .step{font-family:var(--f-display);font-size:13px;color:var(--purple);font-weight:700;letter-spacing:.08em}
+.phase-head h3{font-size:19px;font-weight:700}
+.phase-head .time{font-size:12px;color:var(--muted)}
+.phase-head .goal{font-size:13px;color:var(--muted);line-height:1.45}
+ol.qs{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:q}
+ol.qs li{counter-increment:q;display:grid;grid-template-columns:30px 1fr;gap:10px;background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:12px 14px}
+ol.qs li::before{content:counter(q);font-family:var(--f-display);font-weight:700;color:var(--cyan);font-size:14px}
+ol.qs li .q{font-weight:500}
+ol.qs li .why{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+.phase-body{display:grid;gap:12px;min-width:0}
+.listen{font-size:13px;color:var(--muted);padding:10px 14px;border:1px dashed var(--line);border-radius:12px}
+.listen b{color:var(--cyan);font-weight:600}
+
+.obj{display:grid;gap:12px}
+.obj-row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:16px;padding:14px 0;border-top:1px solid var(--line-soft)}
+.obj-row:first-child{border-top:0}
+.obj-row .o{font-weight:600;font-family:var(--f-display);font-size:15px}
+.obj-row .a{color:var(--muted)}
+
+.map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.map .plain h4{font-size:15px;margin-bottom:4px}
+.map .plain .from{font-size:12px;color:var(--purple);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.map .plain p{color:var(--muted);font-size:14px}
+
+/* Dashboard */
+.card-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.card-h h3{font-size:16px;font-weight:600}
+.card-h small{color:var(--dim);font-size:12px}
+.bars{display:grid;gap:9px}
+.bar{display:grid;grid-template-columns:minmax(0,170px) 1fr 44px;gap:12px;align-items:center;font-size:13px}
+.bar .lbl{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .trk{height:10px;border-radius:999px;background:rgba(148,178,204,.08);overflow:hidden}
+.bar .fill{height:100%;border-radius:999px;background:var(--neural)}
+.bar .fill.p{background:var(--purple)}
+.bar .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;width:100%;height:auto;min-width:560px}
+.stack{display:flex;height:16px;border-radius:999px;overflow:hidden;margin-block:6px 12px}
+.stack div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th{text-align:left;font-weight:600;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+td.mono{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--cyan)}
+.note{font-size:12px;color:var(--dim);line-height:1.5}
+.sources{font-size:13px;color:var(--muted)}
+.sources a{word-break:break-all}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--dim)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid3{grid-template-columns:1fr}
+  .phase{grid-template-columns:1fr;gap:14px}
+}
+@media (max-width:620px){
+  .grid2,.map{grid-template-columns:1fr}
+  .obj-row{grid-template-columns:1fr;gap:6px}
+  .bar{grid-template-columns:minmax(0,110px) 1fr 38px}
+  .tl{grid-template-columns:72px 1fr}
+  .wrap{padding-inline:16px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bar .fill{transition:width .6s ease}
+}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="brand-mark">A</div><div>ANA<small>A Nova Advocacia</small></div></div>
+    <div class="stamp num">Pré-call · [DATA DA REUNIÃO]</div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Dossiê de lead</div>
+      <h1>[PRIMEIRO NOME]<br><span>[SOBRENOME]</span></h1>
+      <p class="sub">[Uma frase de identificação: cargo no escritório, cidade, titulação, e o número que define o porte da carteira. Se ele já seguir o @brunotiburcio.ia, diga aqui.]</p>
+    </div>
+    <div class="idcard glass">
+      <dl>
+        <dt>OAB</dt><dd class="num">[UF 00.000]</dd>
+        <dt>Escritório</dt><dd>[NOME DO ESCRITÓRIO]</dd>
+        <dt>CNPJ</dt><dd class="num">[00.000.000/0001-00]</dd>
+        <dt>Sede</dt><dd>[BAIRRO, CIDADE]</dd>
+        <dt>Carreira</dt><dd class="num">[~00 anos (ANO)]</dd>
+        <dt>Site</dt><dd>[dominio.adv.br]</dd>
+      </dl>
+    </div>
+  </div>
+
+  <p class="thesis">[A tese do dossiê, em uma ou duas frases: a contradição que define esse escritório e por que a ANA serve para ele. É a frase que quem vai conduzir a call lê antes de entrar.]</p>
+
+  <div class="tabs">
+    <nav role="tablist" aria-label="Seções do dossiê">
+      <button class="tab" role="tab" id="t-perfil" aria-controls="perfil" aria-selected="true">Perfil</button>
+      <button class="tab" role="tab" id="t-escritorio" aria-controls="escritorio" aria-selected="false">Escritório e sócios</button>
+      <button class="tab" role="tab" id="t-roteiro" aria-controls="roteiro" aria-selected="false">Roteiro da reunião</button>
+      <button class="tab" role="tab" id="t-dashboard" aria-controls="dashboard" aria-selected="false">Dashboard da carteira</button>
+    </nav>
+  </div>
+
+  <!-- PERFIL -->
+  <section class="view" id="perfil" role="tabpanel" aria-labelledby="t-perfil">
+
+    <div class="kpis">
+      <div class="kpi hl"><b class="num">[000]</b><span>processos com intimação no DJEN desde 2024</span></div>
+      <div class="kpi"><b class="num">[~00]</b><span>intimações por mês no ano corrente</span></div>
+      <div class="kpi"><b class="num">[00%]</b><span>da carteira do escritório está com ele</span></div>
+      <div class="kpi"><b class="num">[0.000]</b><span>seguidores no perfil profissional [@perfil]</span></div>
+    </div>
+
+    <div class="block">
+      <h2>Quem é</h2>
+      <div class="grid2">
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">Formação e produção</div>
+          <ul class="clean">
+            <li><span class="k">[Titulação mais alta, instituição e ano.]</span> [Tema da dissertação ou tese, em uma linha.]</li>
+            <li><span class="k">[Especializações.]</span> [Ano da graduação.]</li>
+            <li><span class="k">[Veículo e ano:]</span> [artigo, entrevista ou aparição relevante.]</li>
+            <li class="p">[O que NÃO se achou: não leciona, não palestra, sem produção acadêmica recente. A ausência também é informação.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">Instituições</div>
+          <ul class="clean">
+            <li><span class="k">[Entidade:]</span> [comissão, cargo e desde quando.]</li>
+            <li><span class="k">[OAB:]</span> [comissões que integra ou já integrou.]</li>
+            <li><span class="k">[Associações:]</span> [IBDFAM, IAP, institutos de área.]</li>
+            <li class="p">[Vínculos declarados por terceiros, com a fonte.]</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>O escritório e a atuação real</h2>
+      <p class="lead">[A comparação que importa: como ele se apresenta contra o que a carteira mostra. É quase sempre a parte mais útil do dossiê.]</p>
+      <div class="grid3">
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:10px">Estrutura</div>
+          <ul class="clean">
+            <li>[Marca, CNPJ, ano de abertura, regime.]</li>
+            <li>[Em quantos processos a intimação vai só para ele.]</li>
+            <li>[Processos em comum com cada sócio.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:10px">Carteira</div>
+          <ul class="clean">
+            <li>[% como autor e % como réu.]</li>
+            <li>[Clientes distintos e proporção de pessoa física e jurídica.]</li>
+            <li>[As matérias fortes, em ordem de volume.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:10px">Do outro lado</div>
+          <ul class="clean">
+            <li>[Os grandes litigantes que mais aparecem.]</li>
+            <li>[Escritórios adversários recorrentes.]</li>
+            <li>[Sinais de operação: execução de honorários, acordos em lote.]</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>O que o Instagram mostra</h2>
+      <div class="grid2">
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">[@perfil] · pessoal</div>
+          <ul class="clean">
+            <li>[Posts, seguidores, aberto ou fechado, se há conteúdo jurídico autoral.]</li>
+            <li>[Temas recorrentes.]</li>
+            <li>[Data do último post próprio e ritmo de publicação.]</li>
+            <li class="p">[Seguidores em comum com @lucasbraga.ia (conta logada no navegador do box).]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">[@perfil] · profissional</div>
+          <ul class="clean">
+            <li><span class="k">[Seguidores e posts.]</span> [Bio e link da bio.]</li>
+            <li>[Formato e tema dos conteúdos.]</li>
+            <li>[Engajamento observado.]</li>
+            <li class="p">[Destaques que revelam palestras, cursos ou serviços.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">[@perfil do escritório]</div>
+          <ul class="clean">
+            <li><span class="k">[Seguidores e posts.]</span> [Bio.]</li>
+            <li>[Cadência de publicação e data do último post.]</li>
+            <li>[Engajamento observado.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">Leitura</div>
+          <ul class="clean">
+            <li>[O que o conjunto dos perfis diz sobre captação e posicionamento.]</li>
+            <li class="p">[A oportunidade que isso abre para a conversa.]</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Linha do tempo</h2>
+      <div class="plain timeline">
+        <div class="tl"><time>[ANO]</time><p>[Marco]<small>[detalhe que só o dossiê revela]</small></p></div>
+        <div class="tl"><time>[ANO]</time><p>[Marco]</p></div>
+        <div class="tl"><time>[MÊS ANO]</time><p>[Marco]<small>[detalhe]</small></p></div>
+        <div class="tl"><time>[MÊS ANO]</time><p>[O movimento mais recente, que costuma ser o gancho da abertura]</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Dores prováveis e onde a ANA entra</h2>
+      <div class="grid2">
+        <div class="glass pain">
+          <h4>[Nome curto da dor]</h4>
+          <p class="muted">[A evidência nos dados: o número, o padrão, o que foi observado. Nunca uma dor genérica.]</p>
+          <p class="fit">Entra com: <b>[o colaborador ou a camada da ANA]</b></p>
+        </div>
+        <div class="glass pain">
+          <h4>[Nome curto da dor]</h4>
+          <p class="muted">[Evidência.]</p>
+          <p class="fit">Entra com: <b>[solução]</b></p>
+        </div>
+        <div class="glass pain">
+          <h4>[Nome curto da dor]</h4>
+          <p class="muted">[Evidência.]</p>
+          <p class="fit">Entra com: <b>[solução]</b></p>
+        </div>
+        <div class="glass pain">
+          <h4>[Nome curto da dor]</h4>
+          <p class="muted">[Evidência.]</p>
+          <p class="fit">Entra com: <b>[solução]</b></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert">
+      <h4>Pontos de atenção</h4>
+      <p class="muted">[Se o lead está ou não no perfil de cliente da ANA, e os riscos da conversa: decisor ausente, quem mais ganha com a implantação, autoimagem que pode atrapalhar, trauma de entrega anterior.]</p>
+    </div>
+
+    <div class="block">
+      <h2>Confiabilidade e fontes</h2>
+      <div class="plain sources">
+        <ul class="clean">
+          <li><span class="tag ok">Confirmado</span> [O que veio de fonte primária: Receita, DJEN, site lido por inteiro, página oficial de entidade, Instagram lido no navegador.]</li>
+          <li><span class="tag inf">Inferido</span> [O que foi deduzido do texto das intimações, das partes ou do site: matéria, polo, tipo de cliente, divisão de papéis.]</li>
+          <li><span class="tag no">Não verificado</span> [O que ficou bloqueado ou não foi checado, e por quê.]</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCRITORIO -->
+  <section class="view" id="escritorio" role="tabpanel" aria-labelledby="t-escritorio" hidden>
+    <div class="block">
+      <h2>[NOME DO ESCRITÓRIO]</h2>
+      <p class="lead">[Razão social, natureza jurídica, ano de abertura, regime tributário, capital, quadro societário e quem é o administrador.]</p>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi hl"><b class="num">[~00]</b><span>advogados com intimação no DJEN</span></div>
+      <div class="kpi"><b class="num">[0.000]</b><span>processos distintos somando os sócios</span></div>
+      <div class="kpi"><b class="num">[00%]</b><span>das intimações passam por [sócio]</span></div>
+      <div class="kpi"><b class="num">[000]</b><span>[outro indicador público relevante]</span></div>
+    </div>
+
+    <div class="block">
+      <h2>Os sócios</h2>
+      <div class="grid3">
+        <div class="glass pain">
+          <div class="eyebrow">[Papel formal]</div>
+          <h4>[Nome do sócio]</h4>
+          <p class="muted num">[OAB] · [000 processos]</p>
+          <ul class="clean" style="font-size:14px">
+            <li>[Matérias e perfil de carteira.]</li>
+            <li>[Formação e vida institucional.]</li>
+            <li>[O que ele representa na operação.]</li>
+          </ul>
+          <p class="fit">Papel: <b>[a leitura em três palavras]</b></p>
+        </div>
+        <div class="glass pain">
+          <div class="eyebrow">[Papel formal]</div>
+          <h4>[Nome do sócio]</h4>
+          <p class="muted num">[OAB] · [000 processos]</p>
+          <ul class="clean" style="font-size:14px">
+            <li>[Matérias e perfil de carteira.]</li>
+            <li>[Formação e vida institucional.]</li>
+          </ul>
+          <p class="fit">Papel: <b>[leitura]</b></p>
+        </div>
+        <div class="glass pain">
+          <div class="eyebrow">[Papel formal]</div>
+          <h4>[Nome do sócio]</h4>
+          <p class="muted num">[OAB] · [000 processos]</p>
+          <ul class="clean" style="font-size:14px">
+            <li>[Matérias e perfil de carteira.]</li>
+            <li>[Formação e vida institucional.]</li>
+          </ul>
+          <p class="fit">Papel: <b>[leitura]</b></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="plain">
+        <div class="card-h"><h3>Processos por sócio</h3><small>DJEN</small></div>
+        <div class="bars">
+          <div class="bar"><span class="lbl">[Sócio]</span><span class="trk"><span class="fill" style="display:block;width:100%"></span></span><span class="val">[000]</span></div>
+          <div class="bar"><span class="lbl">[Sócio]</span><span class="trk"><span class="fill p" style="display:block;width:40%"></span></span><span class="val">[000]</span></div>
+          <div class="bar"><span class="lbl">[Sócio]</span><span class="trk"><span class="fill p" style="display:block;width:25%"></span></span><span class="val">[000]</span></div>
+        </div>
+        <p class="note" style="margin-top:12px">[Processos em comum entre os sócios e o que isso revela sobre a divisão do trabalho.]</p>
+      </div>
+      <div class="plain">
+        <div class="card-h"><h3>Equipe com mais intimações</h3><small>comunicações no DJEN</small></div>
+        <div class="bars">
+          <div class="bar"><span class="lbl">[Nome]</span><span class="trk"><span class="fill" style="display:block;width:100%"></span></span><span class="val">[000]</span></div>
+          <div class="bar"><span class="lbl">[Nome]</span><span class="trk"><span class="fill" style="display:block;width:45%"></span></span><span class="val">[000]</span></div>
+          <div class="bar"><span class="lbl">[Nome]</span><span class="trk"><span class="fill" style="display:block;width:30%"></span></span><span class="val">[000]</span></div>
+        </div>
+        <p class="note" style="margin-top:12px">[Divergências entre o que o site diz da equipe e o que o DJEN mostra.]</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>O site [dominio]</h2>
+      <div class="grid2">
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">O que ele diz</div>
+          <ul class="clean">
+            <li>[Áreas e promessa comercial.]</li>
+            <li>[Abrangência territorial e unidades.]</li>
+            <li>[Landing pages e ofertas ativas.]</li>
+            <li>[Blog: quantidade de posts, data do último.]</li>
+          </ul>
+        </div>
+        <div class="plain">
+          <div class="eyebrow" style="margin-bottom:12px">O que a análise mostra</div>
+          <ul class="clean">
+            <li>[Tags de anúncio e pixel encontrados no código, e a agência responsável.]</li>
+            <li>[Para onde vão os botões de contato e se há números não publicados.]</li>
+            <li>[Sinais de conteúdo terceirizado ou gerado.]</li>
+            <li class="p">[O que está desatualizado e que não deve virar crítica na reunião.]</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Como isso muda a leitura</h2>
+      <div class="grid3">
+        <div class="plain"><div class="eyebrow" style="margin-bottom:8px">Porte</div><p class="muted">[Se está dentro do perfil de cliente da ANA e por quê.]</p></div>
+        <div class="plain"><div class="eyebrow" style="margin-bottom:8px">Quem decide</div><p class="muted">[Quem abre a porta, quem decide, quem mais ganha com a implantação.]</p></div>
+        <div class="plain"><div class="eyebrow" style="margin-bottom:8px">Maturidade em IA</div><p class="muted">[A distância entre o discurso público e a operação real.]</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROTEIRO -->
+  <section class="view" id="roteiro" role="tabpanel" aria-labelledby="t-roteiro" hidden>
+    <div class="block">
+      <h2>Roteiro da reunião</h2>
+      <p class="lead">[Duração, registro da conversa e a meta da call em uma frase. Ajuste o tom ao perfil: colega que quer implantar, não aluno que precisa aprender.]</p>
+    </div>
+
+    <div>
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 1</span><h3>Abertura e conexão</h3><span class="time num">0 a 5 min</span><p class="goal">[Objetivo da fase.]</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"[Pergunta sobre o movimento mais recente dele.]"</span><span class="why">[Por que essa pergunta abre a conversa.]</span></div></li>
+            <li><div><span class="q">"[Pergunta que mostra que quem vai conduzir a reunião estudou o trabalho dele.]"</span><span class="why">[O que ela revela.]</span></div></li>
+            <li><div><span class="q">"O que te fez topar essa conversa agora?"</span><span class="why">Ele diz o gatilho com as próprias palavras. Anote a frase.</span></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 2</span><h3>Situação do escritório</h3><span class="time num">5 a 15 min</span><p class="goal">Confirmar o retrato que os dados sugerem.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"[Pergunta sobre a divisão de papéis.]"</span><span class="why">[O que os dados indicam e precisa ser confirmado.]</span></div></li>
+            <li><div><span class="q">"[Pergunta sobre o tamanho real da operação.]"</span><span class="why">[A divergência entre o site e o DJEN.]</span></div></li>
+            <li><div><span class="q">"[Pergunta sobre o fluxo que gera mais volume.]"</span><span class="why">[O maior caso de uso de IA do escritório.]</span></div></li>
+          </ol>
+          <p class="listen"><b>Escute:</b> [o sinal que muda o rumo da conversa se aparecer.]</p>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 3</span><h3>Problema</h3><span class="time num">15 a 23 min</span><p class="goal">Fazer a dor aparecer com nome e frequência.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"[Quanto tempo leva a peça mais repetida dele, do caso ao protocolo?]"</span><span class="why">Base do cálculo de retorno.</span></div></li>
+            <li><div><span class="q">"[Pergunta sobre o canal de captação que ele já paga.]"</span><span class="why">[Ponte para o atendimento e a qualificação.]</span></div></li>
+            <li><div><span class="q">"[Pergunta curiosa, nunca crítica, sobre algo que parou.]"</span><span class="why">Abre a dor sem acusar.</span></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 4</span><h3>Implicação</h3><span class="time num">23 a 28 min</span><p class="goal">Mostrar o custo de continuar como está.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"[Se o volume crescer de novo, vocês contratam mais gente?]"</span><span class="why">[O dado de crescimento que sustenta a projeção.]</span></div></li>
+            <li><div><span class="q">"Quanto custa hoje um advogado júnior para vocês, com encargos?"</span><span class="why">Ancoragem na folha. Deixe ele dizer o número.</span></div></li>
+            <li><div><span class="q">"[Quanto do seu tempo vai para operação e quanto sobra para o que você gosta?]"</span><span class="why">A IA devolve tempo para o que está fora do escritório.</span></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 5</span><h3>IA hoje</h3><span class="time num">28 a 33 min</span><p class="goal">Medir a distância entre discurso e operação.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"Dentro do escritório, o que já roda com IA no dia a dia?"</span><span class="why">A pergunta central. Respeita o conhecimento dele e expõe a lacuna.</span></div></li>
+            <li><div><span class="q">"[Pergunta sobre o maior risco que ele enxerga no uso de IA.]"</span><span class="why">Abre a conformidade, que é o fosso da ANA.</span></div></li>
+            <li><div><span class="q">"Se amanhã você tivesse um time de IA, qual tarefa daria primeiro?"</span><span class="why">Ele escolhe o primeiro colaborador. Vira a demo.</span></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 6</span><h3>Qualificação</h3><span class="time num">33 a 37 min</span><p class="goal">Confirmar quem decide e o tempo para implantar.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"Uma decisão dessas vocês tomam juntos?"</span><span class="why">[Quem precisa estar na próxima conversa.]</span></div></li>
+            <li><div><span class="q">"Quem dentro do escritório ficaria responsável por implantar?"</span><span class="why">Resolve a objeção de falta de tempo.</span></div></li>
+            <li><div><span class="q">"Em que faixa está o faturamento mensal do escritório?"</span><span class="why">[Confirmar o piso do perfil de cliente.]</span></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head"><span class="step">FASE 7</span><h3>Ponte e fechamento</h3><span class="time num">37 a 45 min</span><p class="goal">Ligar a dor às soluções e marcar a próxima conversa.</p></div>
+        <div class="phase-body">
+          <ol class="qs">
+            <li><div><span class="q">"Pelo que você contou, o gargalo é [dor nas palavras dele]. Posso te mostrar como isso fica com a ANA?"</span><span class="why">Repita a frase dele, não a sua.</span></div></li>
+            <li><div><span class="q">"[Conexão entre a compra e o que ele quer ser publicamente.]"</span><span class="why">[O que move esse lead além do resultado.]</span></div></li>
+            <li><div><span class="q">"Faz sentido ter um time de IA por menos da metade de um júnior?"</span><span class="why">Ancora na folha. Nunca compare com curso.</span></div></li>
+            <li><div><span class="q">"Qual o melhor dia para eu apresentar isso para vocês?"</span><span class="why">Próximo passo com data. Não deixe a venda depender de um recado.</span></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>O que mostrar para ele</h2>
+      <div class="map">
+        <div class="plain"><div class="from">[A dor dele]</div><h4>[Colaborador da ANA]</h4><p>[O que ele faz, dito no vocabulário do escritório.]</p></div>
+        <div class="plain"><div class="from">[A dor dele]</div><h4>[Colaborador da ANA]</h4><p>[O que ele faz.]</p></div>
+        <div class="plain"><div class="from">[A dor dele]</div><h4>[Colaborador da ANA]</h4><p>[O que ele faz.]</p></div>
+        <div class="plain"><div class="from">[A dor dele]</div><h4>Conformidade</h4><p>Revisão humana, LGPD e anti-alucinação embutidos.</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Objeções prováveis</h2>
+      <div class="plain obj">
+        <div class="obj-row"><div class="o">"[Objeção na voz dele.]"</div><div class="a">[A resposta, curta, sem combater.]</div></div>
+        <div class="obj-row"><div class="o">"Preciso falar com meus sócios."</div><div class="a">Natural. Ofereça apresentar para todos, com data.</div></div>
+        <div class="obj-row"><div class="o">"Já comprei curso ou ferramenta de IA e não funcionou."</div><div class="a">[Trauma de entrega: acolher e mostrar acompanhamento e implementação assistida.]</div></div>
+        <div class="obj-row"><div class="o">"E a ética, o sigilo, a alucinação?"</div><div class="a">É o argumento a favor. Revisão humana, verificação de fonte e LGPD são parte do produto.</div></div>
+        <div class="obj-row"><div class="o">"O investimento é alto."</div><div class="a">[Ancoragem em folha e no custo de montar por fora. Compare com a folha, nunca com curso.]</div></div>
+      </div>
+    </div>
+
+    <div class="alert">
+      <h4>Não faça</h4>
+      <p class="muted">[O que não citar na reunião: vida pessoal, família, fotos, e qualquer achado que soe como crítica. Liste caso a caso.]</p>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="view" id="dashboard" role="tabpanel" aria-labelledby="t-dashboard" hidden>
+    <div class="block">
+      <h2>Dashboard da carteira</h2>
+      <p class="lead">[Recorte temporal da consulta e a ressalva de cobertura do DJEN. Diga sempre de quem são os processos: só do lead ou da soma dos sócios.]</p>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi hl"><b class="num">[000]</b><span>processos distintos</span></div>
+      <div class="kpi"><b class="num">[0.000]</b><span>intimações no período</span></div>
+      <div class="kpi"><b class="num">[000]</b><span>processos com movimento nos últimos 90 dias</span></div>
+      <div class="kpi"><b class="num">[000]</b><span>processos com movimento nos últimos 12 meses</span></div>
+      <div class="kpi"><b class="num">[00%]</b><span>dos processos com ele no polo ativo</span></div>
+      <div class="kpi"><b class="num">[~000]</b><span>clientes distintos</span></div>
+      <div class="kpi"><b class="num">[00]</b><span>tribunais diferentes</span></div>
+      <div class="kpi"><b class="num">[000]</b><span>[o indicador que revela o padrão de operação]</span></div>
+    </div>
+
+    <div class="glass">
+      <div class="card-h"><h3>Intimações por mês</h3><small>DJEN · [período]</small></div>
+      <div class="chart" id="chart-month"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="plain">
+        <div class="card-h"><h3>Matérias</h3><small>processos · classificação pelo texto</small></div>
+        <div class="bars" id="b-materia"></div>
+        <p class="note" style="margin-top:12px">[Ressalva sobre a categoria residual "cível geral".]</p>
+      </div>
+      <div class="plain">
+        <div class="card-h"><h3>Tribunais</h3><small>processos</small></div>
+        <div class="bars" id="b-trib"></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="plain">
+        <div class="card-h"><h3>Classes processuais</h3><small>top 10 · processos</small></div>
+        <div class="bars" id="b-classe"></div>
+      </div>
+      <div class="plain">
+        <div class="card-h"><h3>Grandes litigantes nos processos</h3><small>nomeados nas intimações</small></div>
+        <div class="bars" id="b-contra"></div>
+        <p class="note" style="margin-top:12px">[Ressalva: contagem mínima, só entra quem aparece nominalmente.]</p>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="plain">
+        <div class="card-h"><h3>Tipo de vara</h3><small>processos</small></div>
+        <div class="bars" id="b-orgao"></div>
+      </div>
+      <div class="plain">
+        <div class="card-h"><h3>Polo e tipo de cliente</h3><small>estimativa</small></div>
+        <p class="muted" style="font-size:13px">Polo dos processos</p>
+        <div class="stack" aria-label="Autor, réu e não classificado">
+          <div style="width:60%;background:var(--cyan)"></div><div style="width:25%;background:var(--purple)"></div><div style="width:15%;background:rgba(148,178,204,.25)"></div>
+        </div>
+        <div class="legend"><span><i style="background:var(--cyan)"></i>Autor [000]</span><span><i style="background:var(--purple)"></i>Réu [000]</span><span><i style="background:rgba(148,178,204,.25)"></i>Não classificado [000]</span></div>
+        <p class="muted" style="font-size:13px;margin-top:20px">Clientes</p>
+        <div class="stack" aria-label="Pessoa física e pessoa jurídica">
+          <div style="width:75%;background:var(--cyan)"></div><div style="width:25%;background:var(--purple)"></div>
+        </div>
+        <div class="legend"><span><i style="background:var(--cyan)"></i>Pessoa física [000]</span><span><i style="background:var(--purple)"></i>Pessoa jurídica [000]</span></div>
+        <p class="note" style="margin-top:14px">[A leitura: recorrência por cliente, se é contencioso de massa B2C ou carteira empresarial.]</p>
+      </div>
+    </div>
+
+    <div class="glass">
+      <div class="card-h"><h3>Ano de ajuizamento</h3><small>pelo ano do número CNJ</small></div>
+      <div class="chart" id="chart-year"></div>
+      <p class="note" style="margin-top:10px">[O pico da série e o que ele coincide na vida do escritório.]</p>
+    </div>
+
+    <div class="plain">
+      <div class="card-h"><h3>Processos que ilustram a carteira</h3><small>exemplos para a conversa</small></div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Processo</th><th>Tribunal</th><th>Matéria</th><th>Resumo</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">[número CNJ]</td><td>[tribunal]</td><td>[matéria]</td><td>[o que é o caso, em uma linha, com o que serve de assunto na reunião]</td></tr>
+            <tr><td class="mono">[número CNJ]</td><td>[tribunal]</td><td>[matéria]</td><td>[resumo]</td></tr>
+            <tr><td class="mono">[número CNJ]</td><td>[tribunal]</td><td>[matéria]</td><td>[resumo]</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="note">Método: consulta à API pública do DJEN por nome e OAB, agrupamento por número CNJ. Matéria e polo são deduzidos do texto e das partes das intimações e têm margem de erro. Tipo de vara segue a contagem por órgão julgador.</p>
+  </section>
+
+  <footer>ANA · A Nova Advocacia · Documento interno de pré-venda. Dados públicos coletados em [DATA].</footer>
+</div>
+<script>
+(function(){
+  /* Dados de amostra, apenas para o gabarito renderizar. Substitua tudo pelos números
+     reais do lead, mapeando djen_metricas.json conforme references/pagina.md.
+     Ajuste também: o teto do eixo (max) nos dois gráficos, a linha de média,
+     o limiar que marca os picos e o ano destacado nas colunas. */
+  var D={
+    materia:[["Matéria A",0],["Matéria B",0],["Matéria C",0],["Matéria D",0],["Matéria E",0]],
+    trib:[["Tribunal A",0],["Tribunal B",0],["Tribunal C",0],["Outros",0]],
+    classe:[["Classe A",0],["Classe B",0],["Classe C",0],["Classe D",0],["Classe E",0]],
+    contra:[["Litigante A",0],["Litigante B",0],["Litigante C",0]],
+    orgao:[["Varas cíveis",0],["2º grau",0],["Juizados",0],["Justiça Federal",0]],
+    mes:[["2024-06",0],["2024-09",0],["2024-12",0],["2025-03",0],["2025-06",0],["2025-09",0],["2025-12",0],["2026-03",0],["2026-06",0],["2026-09",0]],
+    ano:[["até 2020",0],["2021",0],["2022",0],["2023",0],["2024",0],["2025",0],["2026",0]]
+  };
+  var CFG={maxMes:100,maxAno:120,media:0,mediaDesde:0,picoAcima:1e9,anoDestaque:""};
+
+  function bars(id,rows,alt){
+    var el=document.getElementById(id);if(!el)return;
+    var max=Math.max.apply(null,rows.map(function(r){return r[1]}))||1;
+    el.innerHTML=rows.map(function(r,i){
+      var w=(r[1]/max*100).toFixed(1);
+      return '<div class="bar"><span class="lbl" title="'+r[0]+'">'+r[0]+'</span><span class="trk"><span class="fill'+(alt&&i===0?' p':'')+'" style="display:block;width:'+w+'%"></span></span><span class="val">'+r[1].toLocaleString('pt-BR')+'</span></div>';
+    }).join('');
+  }
+  bars('b-materia',D.materia,true);bars('b-trib',D.trib);bars('b-classe',D.classe);bars('b-contra',D.contra);bars('b-orgao',D.orgao);
+
+  var MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  function lineChart(){
+    var rows=D.mes,W=900,H=260,pl=36,pr=16,pt=18,pb=34,max=CFG.maxMes;
+    var iw=W-pl-pr,ih=H-pt-pb,step=iw/(rows.length-1);
+    function x(i){return pl+i*step} function y(v){return pt+ih-(v/max)*ih}
+    var g='';
+    [0,25,50,75,100].forEach(function(t){g+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke="rgba(148,178,204,.12)"/><text x="'+(pl-8)+'" y="'+(y(t)+4)+'" text-anchor="end" font-size="11" fill="#5B7083">'+t+'</text>'});
+    var pts=rows.map(function(r,i){return x(i)+','+y(r[1])}).join(' ');
+    var area='M'+x(0)+','+y(0)+' L'+pts.split(' ').join(' L')+' L'+x(rows.length-1)+','+y(0)+' Z';
+    var lab='';
+    rows.forEach(function(r,i){var m=+r[0].slice(5,7);if(m===1||i===0){lab+='<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" fill="#8FA3B5">'+MES[m-1]+' '+r[0].slice(2,4)+'</text>'}});
+    var dots='';
+    rows.forEach(function(r,i){if(r[1]>=CFG.picoAcima){dots+='<circle cx="'+x(i)+'" cy="'+y(r[1])+'" r="4" fill="#00F0FF"/><text x="'+x(i)+'" y="'+(y(r[1])-9)+'" text-anchor="middle" font-size="11" fill="#E8F1F8">'+r[1]+'</text>'}});
+    var avg='';
+    if(CFG.media>0){var avgY=y(CFG.media);avg='<line x1="'+x(CFG.mediaDesde)+'" x2="'+x(rows.length-1)+'" y1="'+avgY+'" y2="'+avgY+'" stroke="#6366F1" stroke-dasharray="4 4"/><text x="'+(x(CFG.mediaDesde)+4)+'" y="'+(avgY+14)+'" font-size="11" fill="#A5A8F5">média: '+CFG.media+'/mês</text>'}
+    var last=rows.length-1;
+    return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Intimações por mês no período consultado"><defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity=".28"/><stop offset="1" stop-color="#6366F1" stop-opacity="0"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#00F0FF"/></linearGradient></defs>'+g+
+      '<path d="'+area+'" fill="url(#ga)"/><polyline points="'+pts+'" fill="none" stroke="url(#gl)" stroke-width="2.5" stroke-linejoin="round"/>'+
+      avg+dots+'<circle cx="'+x(last)+'" cy="'+y(rows[last][1])+'" r="4" fill="#050B11" stroke="#00F0FF" stroke-width="2"/>'+lab+'</svg>';
+  }
+  document.getElementById('chart-month').innerHTML=lineChart();
+
+  function colChart(){
+    var rows=D.ano,W=900,H=240,pl=16,pr=16,pt=22,pb=30,max=CFG.maxAno;
+    var iw=W-pl-pr,ih=H-pt-pb,bw=iw/rows.length,s='';
+    rows.forEach(function(r,i){
+      var h=r[1]/max*ih,xx=pl+i*bw+bw*.18,w=bw*.64,yy=pt+ih-h,hl=r[0]===CFG.anoDestaque;
+      s+='<rect x="'+xx+'" y="'+yy+'" width="'+w+'" height="'+h+'" rx="4" fill="'+(hl?'url(#gc)':'rgba(99,102,241,.55)')+'"/>';
+      s+='<text x="'+(xx+w/2)+'" y="'+(yy-6)+'" text-anchor="middle" font-size="11" fill="'+(hl?'#00F0FF':'#8FA3B5')+'">'+r[1]+'</text>';
+      s+='<text x="'+(xx+w/2)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" fill="#8FA3B5">'+r[0]+'</text>';
+    });
+    return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Processos por ano de ajuizamento"><defs><linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs><line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+(pt+ih)+'" y2="'+(pt+ih)+'" stroke="rgba(148,178,204,.2)"/>'+s+'</svg>';
+  }
+  document.getElementById('chart-year').innerHTML=colChart();
+
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(id,push){
+    tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+    if(push){try{history.replaceState(null,'','#'+id)}catch(e){}}
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true);var tb=document.querySelector('.tabs');window.scrollTo({top:tb.offsetTop-4,behavior:'smooth'})})});
+  var h=(location.hash||'').slice(1);
+  if(['perfil','escritorio','roteiro','dashboard'].indexOf(h)>-1)show(h,false);
+})();
+</script>

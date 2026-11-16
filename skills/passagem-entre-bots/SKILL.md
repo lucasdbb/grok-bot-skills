@@ -97,6 +97,15 @@ O contexto mora no arquivo, não no chat. Qualquer bot retoma de onde o outro pa
 - **Quem recebe** não edita o arquivo (seção 1). Responde em `<mesmo nome>-resposta.md`, no mesmo modelo, e manda só o caminho de volta.
 - **Antes de ação com consequência** (dinheiro, publicação, envio, exclusão), reabra a fonte citada em "fontes". Não confie no número copiado no handoff.
 - Nada sensível (seção 4). Dado privado (saúde, Isa, gravações) não vai para `/workspace/handoffs/`.
+- **Registre no painel** (Lucas, 03/11/2026): em todo SendToAgent com pedido ou entrega (não FYI nem agradecimento), poste também o handoff no painel, pelo stdin com here-document:
+
+```bash
+curl -sS -H "Authorization: Bearer $(cat /home/box/.secrets/painel-bots-token)" -H "Content-Type: application/json" -d @- https://painel-bots-production.up.railway.app/ingest <<'EOF'
+{"type":"handoff","from":"<nome exato de quem passa>","to":"<nome exato de quem recebe>","task":"<tarefa em até 80 caracteres>"}
+EOF
+```
+
+  Resposta esperada: `{"ok":true,"type":"handoff",...}`. Nunca mostre a chave; se falhar, siga e cite no "Não verificado:".
 
 ## Verificação antes de entregar
 - O arquivo que você escreveu termina com a linha de status correta.

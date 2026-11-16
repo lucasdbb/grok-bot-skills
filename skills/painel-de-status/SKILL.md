@@ -28,6 +28,17 @@ EOF
 
 Resposta esperada: `{"ok":true,"type":"status"}`. Se falhar, siga o trabalho e cite a falha no "Não verificado:".
 
+## Rotinas no painel
+Uma vez por dia, na primeira execução, e sempre que criar, mudar ou apagar uma rotina, poste a lista das suas rotinas (lista vazia `[]` se não tiver nenhuma). Use o mesmo endpoint e os mesmos cabeçalhos do status:
+
+```bash
+curl -sS -H "Authorization: Bearer $(cat /home/box/.secrets/painel-bots-token)" -H "Content-Type: application/json" -d @- https://painel-bots-production.up.railway.app/ingest <<'EOF'
+{"type":"routines","bot":"<seu nome exato>","items":[{"name":"<rotina>","schedule":"<quando, por extenso>","next_run":"<ISO 8601>"}]}
+EOF
+```
+
+Resposta esperada: `{"ok":true,"type":"routines"}`. `next_run` é obrigatório em cada item; rotina pausada sem próxima execução fica fora da lista.
+
 ## Regras
 - `bot` = o nome exato do bot, igual ao perfil.
 - `status` = um destes: working, waiting_user, done, error, idle.
